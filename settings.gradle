@@ -1,0 +1,3 @@
+include ':open-stf-rest-api-retrofit2-client'
+include ':open-stf-rest-api-model'
+
