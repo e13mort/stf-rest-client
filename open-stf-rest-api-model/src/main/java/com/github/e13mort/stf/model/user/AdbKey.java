@@ -2,17 +2,11 @@
 package com.github.e13mort.stf.model.user;
 
 import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class AdbKey {
 
-    @SerializedName("fingerprint")
-    @Expose
     private String fingerprint;
-    @SerializedName("title")
-    @Expose
     private String title;
 
     /**

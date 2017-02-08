@@ -1,43 +1,21 @@
 
 package com.github.e13mort.stf.model.user;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class User {
 
-    @SerializedName("adbKeys")
-    @Expose
     private List<AdbKey> adbKeys = new ArrayList<AdbKey>();
-    @SerializedName("createdAt")
-    @Expose
     private String createdAt;
-    @SerializedName("email")
-    @Expose
     private String email;
-    @SerializedName("forwards")
-    @Expose
     private List<Object> forwards = new ArrayList<Object>();
-    @SerializedName("group")
-    @Expose
     private String group;
-    @SerializedName("ip")
-    @Expose
     private String ip;
-    @SerializedName("lastLoggedInAt")
-    @Expose
     private String lastLoggedInAt;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("settings")
-    @Expose
     private Settings settings;
 
     /**

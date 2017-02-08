@@ -1,13 +1,9 @@
 package com.github.e13mort.stf.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class RemoteConnectUserDeviceResponse {
 
-    @SerializedName("remoteConnectUrl")
     private String remoteConnectUrl = null;
 
-    @SerializedName("serial")
     private String serial = null;
 
     public String getRemoteConnectUrl() {

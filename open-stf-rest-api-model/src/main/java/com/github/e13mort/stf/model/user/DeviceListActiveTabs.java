@@ -2,17 +2,11 @@
 package com.github.e13mort.stf.model.user;
 
 import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class DeviceListActiveTabs {
 
-    @SerializedName("details")
-    @Expose
     private Boolean details;
-    @SerializedName("icons")
-    @Expose
     private Boolean icons;
 
     /**

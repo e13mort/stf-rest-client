@@ -1,19 +1,12 @@
 
 package com.github.e13mort.stf.model.user;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class SortType {
 
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("order")
-    @Expose
     private String order;
 
     /**

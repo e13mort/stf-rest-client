@@ -1,11 +1,9 @@
 package com.github.e13mort.stf.model;
 
 import com.github.e13mort.stf.model.device.Device;
-import com.google.gson.annotations.SerializedName;
 
 public class DeviceResponse {
 
-    @SerializedName("device")
     private Device device = null;
 
     public Device getDevice() {

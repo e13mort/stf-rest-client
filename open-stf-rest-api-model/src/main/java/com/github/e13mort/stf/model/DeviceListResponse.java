@@ -1,7 +1,6 @@
 package com.github.e13mort.stf.model;
 
 import com.github.e13mort.stf.model.device.Device;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 
 public class DeviceListResponse {
 
-    @SerializedName("devices")
     private List<Device> devices = new ArrayList<Device>();
 
     public List<Device> getDevices() {

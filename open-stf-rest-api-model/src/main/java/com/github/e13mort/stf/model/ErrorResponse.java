@@ -1,11 +1,7 @@
 package com.github.e13mort.stf.model;
 
-import com.google.gson.annotations.SerializedName;
-
-
 public class ErrorResponse {
 
-    @SerializedName("message")
     private String message = null;
 
     public String getMessage() {

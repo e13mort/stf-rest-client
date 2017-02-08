@@ -1,13 +1,10 @@
 package com.github.e13mort.stf.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccessTokensResponse {
 
-    @SerializedName("tokens")
     private List<String> tokens = new ArrayList<String>();
 
     public List<String> getTokens() {

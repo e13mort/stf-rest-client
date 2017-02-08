@@ -1,34 +1,17 @@
 
 package com.github.e13mort.stf.model.device;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Battery {
 
-    @SerializedName("health")
-    @Expose
     private String health;
-    @SerializedName("level")
-    @Expose
     private Integer level;
-    @SerializedName("scale")
-    @Expose
     private Integer scale;
-    @SerializedName("source")
-    @Expose
     private String source;
-    @SerializedName("status")
-    @Expose
     private String status;
-    @SerializedName("temp")
-    @Expose
     private Float temp;
-    @SerializedName("voltage")
-    @Expose
     private Double voltage;
 
     /**

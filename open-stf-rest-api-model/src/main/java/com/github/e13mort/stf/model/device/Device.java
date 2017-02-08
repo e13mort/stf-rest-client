@@ -1,123 +1,49 @@
 
 package com.github.e13mort.stf.model.device;
 
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class Device {
 
-    @SerializedName("abi")
-    @Expose
     private String abi;
-    @SerializedName("airplaneMode")
-    @Expose
     private Boolean airplaneMode;
-    @SerializedName("battery")
-    @Expose
     private Battery battery;
-    @SerializedName("browser")
-    @Expose
     private Browser browser;
-    @SerializedName("channel")
-    @Expose
     private String channel;
-    @SerializedName("createdAt")
-    @Expose
     private String createdAt;
-    @SerializedName("display")
-    @Expose
     private Display display;
-    @SerializedName("manufacturer")
-    @Expose
     private String manufacturer;
-    @SerializedName("model")
-    @Expose
     private String model;
-    @SerializedName("network")
-    @Expose
     private Network network;
-    @SerializedName("notes")
-    @Expose
     private String notes;
-    @SerializedName("operator")
-    @Expose
     private Object operator;
-    @SerializedName("owner")
-    @Expose
     private Object owner;
-    @SerializedName("phone")
-    @Expose
     private Phone phone;
-    @SerializedName("platform")
-    @Expose
     private String platform;
-    @SerializedName("presenceChangedAt")
-    @Expose
     private String presenceChangedAt;
-    @SerializedName("present")
-    @Expose
     private Boolean present;
-    @SerializedName("product")
-    @Expose
     private String product;
-    @SerializedName("provider")
-    @Expose
     private Provider provider;
-    @SerializedName("ready")
-    @Expose
     private Boolean ready;
-    @SerializedName("remoteConnect")
-    @Expose
-    private Boolean remoteConnect;
-    @SerializedName("remoteConnectUrl")
-    @Expose
     private Object remoteConnectUrl;
-    @SerializedName("reverseForwards")
-    @Expose
     private List<Object> reverseForwards = new ArrayList<Object>();
-    @SerializedName("sdk")
-    @Expose
     private String sdk;
-    @SerializedName("serial")
-    @Expose
     private String serial;
-    @SerializedName("status")
-    @Expose
     private Integer status;
-    @SerializedName("statusChangedAt")
-    @Expose
     private String statusChangedAt;
-    @SerializedName("usage")
-    @Expose
     private Object usage;
-    @SerializedName("usageChangedAt")
-    @Expose
     private String usageChangedAt;
-    @SerializedName("version")
-    @Expose
     private String version;
-    @SerializedName("using")
-    @Expose
     private Boolean using;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("releasedAt")
-    @Expose
     private String releasedAt;
-    @SerializedName("image")
-    @Expose
     private String image;
-    @SerializedName("cpu")
-    @Expose
     private Cpu cpu;
-    @SerializedName("memory")
-    @Expose
     private Memory memory;
+    private Boolean remoteConnect;
 
     /**
      * 

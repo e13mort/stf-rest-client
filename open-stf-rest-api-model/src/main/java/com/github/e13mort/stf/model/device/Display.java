@@ -1,46 +1,21 @@
 
 package com.github.e13mort.stf.model.device;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class Display {
 
-    @SerializedName("density")
-    @Expose
     private Float density;
-    @SerializedName("fps")
-    @Expose
     private Double fps;
-    @SerializedName("height")
-    @Expose
     private Integer height;
-    @SerializedName("id")
-    @Expose
     private Integer id;
-    @SerializedName("rotation")
-    @Expose
     private Integer rotation;
-    @SerializedName("secure")
-    @Expose
     private Boolean secure;
-    @SerializedName("size")
-    @Expose
     private Double size;
-    @SerializedName("url")
-    @Expose
     private String url;
-    @SerializedName("width")
-    @Expose
     private Integer width;
-    @SerializedName("xdpi")
-    @Expose
     private Double xdpi;
-    @SerializedName("ydpi")
-    @Expose
     private Double ydpi;
 
     /**

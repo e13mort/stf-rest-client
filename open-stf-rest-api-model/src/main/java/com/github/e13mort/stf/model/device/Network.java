@@ -2,26 +2,14 @@
 package com.github.e13mort.stf.model.device;
 
 import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class Network {
 
-    @SerializedName("connected")
-    @Expose
     private Boolean connected;
-    @SerializedName("failover")
-    @Expose
     private Boolean failover;
-    @SerializedName("roaming")
-    @Expose
     private Boolean roaming;
-    @SerializedName("subtype")
-    @Expose
     private String subtype;
-    @SerializedName("type")
-    @Expose
     private String type;
 
     /**

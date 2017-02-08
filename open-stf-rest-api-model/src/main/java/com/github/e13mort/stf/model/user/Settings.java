@@ -1,29 +1,17 @@
 
 package com.github.e13mort.stf.model.user;
 
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class Settings {
 
-    @SerializedName("deviceListActiveTabs")
-    @Expose
     private DeviceListActiveTabs deviceListActiveTabs;
-    @SerializedName("deviceListColumns")
-    @Expose
     private List<DeviceListColumn> deviceListColumns = new ArrayList<DeviceListColumn>();
-    @SerializedName("deviceListSort")
-    @Expose
     private DeviceListSort deviceListSort;
-    @SerializedName("lastUsedDevice")
-    @Expose
     private String lastUsedDevice;
-    @SerializedName("platform")
-    @Expose
     private String platform;
 
     /**

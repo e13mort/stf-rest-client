@@ -1,12 +1,10 @@
 package com.github.e13mort.stf.model;
 
 import com.github.e13mort.stf.model.user.User;
-import com.google.gson.annotations.SerializedName;
 
 
 public class UserResponse {
 
-    @SerializedName("user")
     private User user = null;
 
     public User getUser() {

@@ -1,19 +1,12 @@
 package com.github.e13mort.stf.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Objects;
-
-
 /**
  * payload object for adding device to user
  **/
 public class AddUserDevicePayload {
 
-    @SerializedName("serial")
     private String serial = null;
 
-    @SerializedName("timeout")
     private Integer timeout = null;
 
 

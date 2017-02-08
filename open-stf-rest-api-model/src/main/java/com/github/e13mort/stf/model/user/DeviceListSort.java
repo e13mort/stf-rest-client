@@ -1,22 +1,14 @@
 
 package com.github.e13mort.stf.model.user;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 public class DeviceListSort {
 
-    @SerializedName("fixed")
-    @Expose
     private List<SortType> fixed = new ArrayList<SortType>();
-    @SerializedName("user")
-    @Expose
     private List<SortType> user = new ArrayList<SortType>();
 
     /**

@@ -2,17 +2,11 @@
 package com.github.e13mort.stf.model.device;
 
 import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class Memory {
 
-    @SerializedName("ram")
-    @Expose
     private Integer ram;
-    @SerializedName("rom")
-    @Expose
     private Integer rom;
 
     /**

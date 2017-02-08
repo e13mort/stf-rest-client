@@ -2,29 +2,15 @@
 package com.github.e13mort.stf.model.device;
 
 import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class App {
 
-    @SerializedName("id")
-    @Expose
     private String id;
-    @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("selected")
-    @Expose
     private Boolean selected;
-    @SerializedName("system")
-    @Expose
     private Boolean system;
-    @SerializedName("type")
-    @Expose
     private String type;
-    @SerializedName("developer")
-    @Expose
     private String developer;
 
     /**

@@ -1,20 +1,14 @@
 
 package com.github.e13mort.stf.model.device;
 
+import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
 public class Browser {
 
-    @SerializedName("apps")
-    @Expose
     private List<App> apps = new ArrayList<App>();
-    @SerializedName("selected")
-    @Expose
     private Boolean selected;
 
     /**
