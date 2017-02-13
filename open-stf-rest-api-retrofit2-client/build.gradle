@@ -1,8 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+def ARTIFACT_ID = 'open-stf-rest-api-retrofit2-client'
+def ARTIFACT_VERSION = '1.0.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -14,14 +18,39 @@ dependencies {
     testCompile "junit:junit:4.12"
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
 
             groupId GROUP_ID
-            artifactId 'open-stf-client-retrofit2'
-            version '1.0.0'
+            artifactId ARTIFACT_ID
+            version ARTIFACT_VERSION
         }
     }
 }
+
+bintray {
+    user = bintray_user
+    key = bintray_key
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        name = ARTIFACT_ID
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/e13mort/stf-rest-client.git'
+        version {
+            name = ARTIFACT_VERSION
+        }
+    }
+}
+
