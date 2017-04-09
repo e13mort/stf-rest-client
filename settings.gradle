@@ -1,3 +1,4 @@
 include ':open-stf-rest-api-retrofit2-client'
 include ':open-stf-rest-api-model'
+include 'open-stf-rest-api-rxjava2-adapter'
 
