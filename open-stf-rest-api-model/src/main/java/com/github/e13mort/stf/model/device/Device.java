@@ -30,7 +30,7 @@ public class Device {
     private Boolean ready;
     private Object remoteConnectUrl;
     private List<Object> reverseForwards = new ArrayList<Object>();
-    private String sdk;
+    private int sdk;
     private String serial;
     private Integer status;
     private String statusChangedAt;
@@ -464,7 +464,7 @@ public class Device {
      * @return
      *     The sdk
      */
-    public String getSdk() {
+    public int getSdk() {
         return sdk;
     }
 
@@ -473,7 +473,7 @@ public class Device {
      * @param sdk
      *     The sdk
      */
-    public void setSdk(String sdk) {
+    public void setSdk(int sdk) {
         this.sdk = sdk;
     }
 
@@ -693,4 +693,45 @@ public class Device {
         this.memory = memory;
     }
 
+    @Override
+    public String toString() {
+        return "Device{" +
+                "abi='" + abi + '\'' +
+                ", airplaneMode=" + airplaneMode +
+                ", battery=" + battery +
+                ", browser=" + browser +
+                ", channel='" + channel + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", display=" + display +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", model='" + model + '\'' +
+                ", network=" + network +
+                ", notes='" + notes + '\'' +
+                ", operator=" + operator +
+                ", owner=" + owner +
+                ", phone=" + phone +
+                ", platform='" + platform + '\'' +
+                ", presenceChangedAt='" + presenceChangedAt + '\'' +
+                ", present=" + present +
+                ", product='" + product + '\'' +
+                ", provider=" + provider +
+                ", ready=" + ready +
+                ", remoteConnectUrl=" + remoteConnectUrl +
+                ", reverseForwards=" + reverseForwards +
+                ", sdk='" + sdk + '\'' +
+                ", serial='" + serial + '\'' +
+                ", status=" + status +
+                ", statusChangedAt='" + statusChangedAt + '\'' +
+                ", usage=" + usage +
+                ", usageChangedAt='" + usageChangedAt + '\'' +
+                ", version='" + version + '\'' +
+                ", using=" + using +
+                ", name='" + name + '\'' +
+                ", releasedAt='" + releasedAt + '\'' +
+                ", image='" + image + '\'' +
+                ", cpu=" + cpu +
+                ", memory=" + memory +
+                ", remoteConnect=" + remoteConnect +
+                '}';
+    }
 }
