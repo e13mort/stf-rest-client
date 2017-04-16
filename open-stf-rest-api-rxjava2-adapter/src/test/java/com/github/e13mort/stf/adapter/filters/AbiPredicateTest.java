@@ -29,14 +29,21 @@ public class AbiPredicateTest {
 
     @Test
     public void testNullFilterEmmitTheNullPointerException() {
-        TestObserver<Device> observer = testDataObservable.filter(new AbiPredicate(null)).test();
-        observer.assertError(NullPointerException.class);
+        getDeviceTestObserver(null).assertError(NullPointerException.class);
     }
 
     @Test
     public void testAbi2FilterReturns2Values() throws Exception {
-        TestObserver<Device> observer = testDataObservable.filter(new AbiPredicate("abi2")).test();
-        observer.assertValueCount(2);
+        getDeviceTestObserver("abi2").assertValueCount(2);
+    }
+
+    @Test
+    public void testGeneralAbiReturns5Values() throws Exception {
+        getDeviceTestObserver("abi").assertValueCount(5);
+    }
+
+    private TestObserver<Device> getDeviceTestObserver(String abi) {
+        return testDataObservable.filter(new AbiPredicate(abi)).test();
     }
 
     private Device mockDevice(String mockAbi) {

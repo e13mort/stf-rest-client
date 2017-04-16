@@ -17,6 +17,6 @@ class AbiPredicate implements Predicate<Device> {
         if (abi == null) {
             throw new NullPointerException("The abi shouldn't be null");
         }
-        return device != null && abi.equals(device.getAbi());
+        return device != null && device.getAbi() != null && device.getAbi().toLowerCase().contains(abi.toLowerCase());
     }
 }
