@@ -16,4 +16,8 @@ public class Filter {
         return new ApiLevel(minApiLevel);
     }
 
+    public static Predicate<Device> available(boolean filter) {
+        return new AvailabilityPredicate(filter);
+    }
+
 }
