@@ -5,6 +5,7 @@ public class DevicesParams {
     private String deviceId;
     private String abi;
     private int osVersion;
+    private int count;
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
@@ -22,6 +23,10 @@ public class DevicesParams {
         this.osVersion = osVersion;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public boolean isAllDevices() {
         return allDevices;
     }
@@ -36,5 +41,9 @@ public class DevicesParams {
 
     public int getOsVersion() {
         return osVersion;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

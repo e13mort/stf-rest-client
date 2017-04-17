@@ -93,6 +93,22 @@ public class RunOptionsTest {
         assertEquals("test_abi", options.getDeviceParams().getAbi());
     }
 
+    @Test
+    public void testCountPropertyIsValid() throws Exception {
+        RunOptions options = getRunOptions("-count 10");
+        assertEquals(10, options.getDeviceParams().getCount());
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testInvalidCountPropertyThrowsAnException() throws Exception {
+        getRunOptions("-count not_a_number");
+    }
+
+    @Test(expected = Exception.class)
+    public void testVoidCountPropertyThrowsAnException() throws Exception {
+        getRunOptions("-count -l");
+    }
+
     private RunOptions getRunOptions(String str) throws ParseException {
         return RunOptions.create(options, str.split(" "));
     }

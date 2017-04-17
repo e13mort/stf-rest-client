@@ -49,6 +49,9 @@ public class FarmClient {
                 upstream = apply(upstream, Filter.api(params.getOsVersion()));
             }
             upstream = apply(upstream, Filter.available(!params.isAllDevices()));
+            if (params.getCount() > 0) {
+                upstream = upstream.take(params.getCount());
+            }
             return upstream;
         }
 

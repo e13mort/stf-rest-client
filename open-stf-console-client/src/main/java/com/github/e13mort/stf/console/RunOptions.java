@@ -1,10 +1,7 @@
 package com.github.e13mort.stf.console;
 
 import com.github.e13mort.stf.client.DevicesParams;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 
 class RunOptions {
     private static final String OPTION_PROPERTIES = "p";
@@ -12,6 +9,7 @@ class RunOptions {
     private static final String OPTION_FILTER_API = "api";
     private static final String OPTION_FILTER_ACTIVE = "all";
     private static final String OPTION_COMMAND_LIST = "l";
+    private static final String OPTION_COUNT = "count";
     private static final String DEFAULT_PROPERTY_FILE_NAME = "farm.properties";
 
     private final String farmPropertiesFileName;
@@ -34,6 +32,7 @@ class RunOptions {
                 .setAbi(line.getOptionValue(OPTION_FILTER_ABI))
                 .setAll(line.hasOption(OPTION_FILTER_ACTIVE))
                 .setApi(line.getOptionValue(OPTION_FILTER_API))
+                .setCount(line.getOptionValue(OPTION_COUNT))
                 .createRunOptions();
     }
 
@@ -56,6 +55,7 @@ class RunOptions {
         options.addOption(OPTION_FILTER_ACTIVE, "all", false, "Show all devices. By default only available devices are returned.");
         options.addOption(OPTION_FILTER_API, "api", true, "Filter by device api level");
         options.addOption(OPTION_FILTER_ABI, "abi", true, "Filter by device abi architecture");
+        options.addOption(OPTION_COUNT, "count", true, "Filter devices by count");
         return options;
     }
 
