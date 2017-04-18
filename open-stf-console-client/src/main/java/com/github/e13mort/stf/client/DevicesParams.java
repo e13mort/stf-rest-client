@@ -6,6 +6,7 @@ public class DevicesParams {
     private String abi;
     private int osVersion;
     private int count;
+    private String name;
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
@@ -45,5 +46,13 @@ public class DevicesParams {
 
     public int getCount() {
         return count;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

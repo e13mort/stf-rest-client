@@ -9,6 +9,7 @@ class RunOptionsBuilder {
     private boolean allDevices;
     private String api;
     private String count;
+    private String name;
 
     RunOptionsBuilder setFarmPropertiesFileName(String farmProprtiesFileName) {
         this.farmPropertiesFileName = farmProprtiesFileName;
@@ -44,6 +45,11 @@ class RunOptionsBuilder {
         return this;
     }
 
+    RunOptionsBuilder setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     private DevicesParams createDeviceParams() throws NumberFormatException {
         DevicesParams params = new DevicesParams();
         params.setAbi(abi);
@@ -54,6 +60,7 @@ class RunOptionsBuilder {
         if (count != null) {
             params.setCount(Integer.parseInt(count));
         }
+        params.setName(name);
         // params.setDeviceId(null); - implement
         return params;
     }

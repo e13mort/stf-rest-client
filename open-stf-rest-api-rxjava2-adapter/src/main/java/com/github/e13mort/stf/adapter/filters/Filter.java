@@ -6,9 +6,7 @@ import io.reactivex.functions.Predicate;
 public class Filter {
 
     public static Predicate<Device> abi(String abi) {
-        if (abi == null) {
-            throw new NullPointerException("Abi shouldn't be null");
-        }
+        validate(abi, "Abi");
         return new AbiPredicate(abi);
     }
 
@@ -18,6 +16,17 @@ public class Filter {
 
     public static Predicate<Device> available(boolean filter) {
         return new AvailabilityPredicate(filter);
+    }
+
+    public static Predicate<Device> name(String name) {
+        validate(name, "name");
+        return new NamePredicate(name);
+    }
+
+    private static void validate(String abi, String var) {
+        if (abi == null) {
+            throw new NullPointerException(var +" shouldn't be null");
+        }
     }
 
 }

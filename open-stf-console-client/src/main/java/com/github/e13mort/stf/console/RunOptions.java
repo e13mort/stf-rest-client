@@ -11,6 +11,7 @@ class RunOptions {
     private static final String OPTION_COMMAND_LIST = "l";
     private static final String OPTION_COUNT = "count";
     private static final String DEFAULT_PROPERTY_FILE_NAME = "farm.properties";
+    private static final String OPTION_FILTER_NAME = "n";
 
     private final String farmPropertiesFileName;
     private final Operation operation;
@@ -33,6 +34,7 @@ class RunOptions {
                 .setAll(line.hasOption(OPTION_FILTER_ACTIVE))
                 .setApi(line.getOptionValue(OPTION_FILTER_API))
                 .setCount(line.getOptionValue(OPTION_COUNT))
+                .setName(line.getOptionValue(OPTION_FILTER_NAME))
                 .createRunOptions();
     }
 
@@ -56,6 +58,7 @@ class RunOptions {
         options.addOption(OPTION_FILTER_API, "api", true, "Filter by device api level");
         options.addOption(OPTION_FILTER_ABI, "abi", true, "Filter by device abi architecture");
         options.addOption(OPTION_COUNT, "count", true, "Filter devices by count");
+        options.addOption(OPTION_FILTER_NAME, "name", true, "Filter devices by its name");
         return options;
     }
 

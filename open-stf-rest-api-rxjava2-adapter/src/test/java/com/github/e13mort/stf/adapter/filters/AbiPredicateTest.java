@@ -1,31 +1,13 @@
 package com.github.e13mort.stf.adapter.filters;
 
 import com.github.e13mort.stf.model.device.Device;
-import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AbiPredicateTest {
-
-    private Observable<Device> testDataObservable;
-
-    @Before
-    public void setup() {
-        ArrayList<Device> devices = new ArrayList<>();
-        devices.add(mockDevice("abi1"));
-        devices.add(mockDevice("abi2"));
-        devices.add(mockDevice("abi2"));
-        devices.add(mockDevice(null));
-        devices.add(mockDevice("another_abi"));
-        devices.add(mockDevice("abi"));
-        testDataObservable = Observable.fromIterable(devices);
-    }
+public class AbiPredicateTest extends SingleMockedStringFieldTest {
 
     @Test
     public void testNullFilterEmmitTheNullPointerException() {
@@ -46,9 +28,16 @@ public class AbiPredicateTest {
         return testDataObservable.filter(new AbiPredicate(abi)).test();
     }
 
-    private Device mockDevice(String mockAbi) {
+    @Override
+    protected String[] getStrings() {
+        return new String[]{"abi1", "abi2", "abi2",
+                null, "another_abi", "abi"};
+    }
+
+    @Override
+    protected Device mockDevice(String param) {
         Device mock = mock(Device.class);
-        when(mock.getAbi()).thenReturn(mockAbi);
+        when(mock.getAbi()).thenReturn(param);
         return mock;
     }
 }

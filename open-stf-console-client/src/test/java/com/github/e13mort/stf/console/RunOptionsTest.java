@@ -89,7 +89,7 @@ public class RunOptionsTest {
 
     @Test(expected = Exception.class)
     public void testUnknownPropertyWillBreakHandling() throws Exception {
-        RunOptions options = getRunOptions("-api 21 -non -abi test_abi");
+        RunOptions options = getRunOptions("-api 21 -!!! -abi test_abi");
         assertEquals("test_abi", options.getDeviceParams().getAbi());
     }
 
@@ -107,6 +107,16 @@ public class RunOptionsTest {
     @Test(expected = Exception.class)
     public void testVoidCountPropertyThrowsAnException() throws Exception {
         getRunOptions("-count -l");
+    }
+
+    @Test
+    public void testNamePropertyIsValid() throws Exception {
+        assertEquals("name", getRunOptions("-n name").getDeviceParams().getName());
+    }
+
+    @Test(expected = Exception.class)
+    public void testVoidNameThrowsAnException() throws Exception {
+        getRunOptions("-n -l");
     }
 
     private RunOptions getRunOptions(String str) throws ParseException {
