@@ -5,6 +5,8 @@ import org.apache.commons.cli.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.github.e13mort.stf.console.RunOptions.Operation.CONNECT;
+import static com.github.e13mort.stf.console.RunOptions.Operation.UNKNOWN;
 import static org.junit.Assert.*;
 
 public class RunOptionsTest {
@@ -117,6 +119,16 @@ public class RunOptionsTest {
     @Test(expected = Exception.class)
     public void testVoidNameThrowsAnException() throws Exception {
         getRunOptions("-n -l");
+    }
+
+    @Test
+    public void testReadConnectOperationFromNormalString() throws Exception {
+        assertEquals(CONNECT, getRunOptions("-c").getOperation());
+    }
+
+    @Test
+    public void testFewCommandParamsReturnsUnknownOperation() throws Exception {
+        assertEquals(UNKNOWN, getRunOptions("-l -c").getOperation());
     }
 
     private RunOptions getRunOptions(String str) throws ParseException {

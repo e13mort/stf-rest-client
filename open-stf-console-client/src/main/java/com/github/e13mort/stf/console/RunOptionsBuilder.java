@@ -10,6 +10,7 @@ class RunOptionsBuilder {
     private String api;
     private String count;
     private String name;
+    private boolean actionConnect;
 
     RunOptionsBuilder setFarmPropertiesFileName(String farmProprtiesFileName) {
         this.farmPropertiesFileName = farmProprtiesFileName;
@@ -50,6 +51,11 @@ class RunOptionsBuilder {
         return this;
     }
 
+    RunOptionsBuilder setActionConnect(boolean actionConnect) {
+        this.actionConnect = actionConnect;
+        return this;
+    }
+
     private DevicesParams createDeviceParams() throws NumberFormatException {
         DevicesParams params = new DevicesParams();
         params.setAbi(abi);
@@ -65,7 +71,12 @@ class RunOptionsBuilder {
         return params;
     }
 
-    public RunOptions.Operation getOperation() {
-        return actionPrintList ? RunOptions.Operation.LIST : RunOptions.Operation.UNKNOWN;
+    private RunOptions.Operation getOperation() {
+        // implement with int flags
+        if (actionPrintList == actionConnect) {
+            return RunOptions.Operation.UNKNOWN;
+        }
+        return actionPrintList ? RunOptions.Operation.LIST :
+                RunOptions.Operation.CONNECT;
     }
 }

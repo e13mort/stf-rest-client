@@ -13,6 +13,7 @@ class Commands {
     Commands(final FarmClient client, Options options) {
         commandMap.put(RunOptions.Operation.UNKNOWN, new HelpCommand(options));
         commandMap.put(RunOptions.Operation.LIST, new ListCommand(client));
+        commandMap.put(RunOptions.Operation.CONNECT, new ConnectCommand(client));
     }
 
     void run(RunOptions options) {

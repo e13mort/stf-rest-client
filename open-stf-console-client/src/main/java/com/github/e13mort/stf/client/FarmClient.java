@@ -8,6 +8,9 @@ import com.github.e13mort.stf.api.UserApi;
 import com.github.e13mort.stf.model.device.Device;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
+import io.reactivex.Notification;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 
@@ -28,6 +31,15 @@ public class FarmClient {
 
     public Flowable<Device> getDevices(DevicesParams params) {
         return rxFarm.getAllDevices().compose(new DeviceParamsTransformer(params));
+    }
+
+    public Flowable<Notification<Device>> connectToDevices(DevicesParams params) {
+        return getDevices(params).map(new Function<Device, Notification<Device>>() {
+            @Override
+            public Notification<Device> apply(@NonNull Device device) throws Exception {
+                return Notification.createOnError(new Exception("Not implemented yet"));
+            }
+        });
     }
 
     private static class DeviceParamsTransformer implements FlowableTransformer<Device, Device> {
