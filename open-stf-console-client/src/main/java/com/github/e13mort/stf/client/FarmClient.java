@@ -15,6 +15,7 @@ import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 
 public class FarmClient {
+    private static final int CONNECTION_TIMEOUT = 60 * 1000;
     private final RxFarm rxFarm;
 
     public static FarmClient create(FarmInfo farmInfo) {
@@ -33,13 +34,20 @@ public class FarmClient {
         return rxFarm.getAllDevices().compose(new DeviceParamsTransformer(params));
     }
 
-    public Flowable<Notification<Device>> connectToDevices(DevicesParams params) {
-        return getDevices(params).map(new Function<Device, Notification<Device>>() {
-            @Override
-            public Notification<Device> apply(@NonNull Device device) throws Exception {
-                return Notification.createOnError(new Exception("Not implemented yet"));
-            }
-        });
+    public Flowable<Notification<String>> connectToDevices(DevicesParams params) {
+        return getDevices(params)
+                .flatMap(new Function<Device, Publisher<String>>() {
+                    @Override
+                    public Publisher<String> apply(@NonNull Device device) throws Exception {
+                        return rxFarm.connect(device.getSerial(), CONNECTION_TIMEOUT).toFlowable();
+                    }
+                })
+                .flatMap(new Function<String, Publisher<Notification<String>>>() {
+                    @Override
+                    public Publisher<Notification<String>> apply(@NonNull String s) throws Exception {
+                        return Flowable.just(Notification.createOnNext(s));
+                    }
+                });
     }
 
     private static class DeviceParamsTransformer implements FlowableTransformer<Device, Device> {
