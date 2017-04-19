@@ -2,7 +2,7 @@ package com.github.e13mort.stf.adapter;
 
 import retrofit2.Response;
 
-public class ResponseException extends Throwable {
+public class ResponseException extends Exception {
 
     private final int code;
     private final String message;
