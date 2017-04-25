@@ -10,10 +10,10 @@ class Commands {
 
     private Map<RunOptions.Operation, Command> commandMap = new HashMap<>();
 
-    Commands(final FarmClient client, Options options) {
+    Commands(final FarmClient client, Options options, AdbRunner adbRunner) {
         commandMap.put(RunOptions.Operation.UNKNOWN, new HelpCommand(options));
         commandMap.put(RunOptions.Operation.LIST, new ListCommand(client));
-        commandMap.put(RunOptions.Operation.CONNECT, new ConnectCommand(client));
+        commandMap.put(RunOptions.Operation.CONNECT, new ConnectCommand(client, adbRunner));
     }
 
     void run(RunOptions options) {

@@ -5,16 +5,10 @@ import com.github.e13mort.stf.client.FarmInfo;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 public class App {
-
-    // farm.jar -p props.properties --list -d <device-id>
-
-    // default property file name - "farm.properties"
 
     public static void main(String... args) throws ParseException, IOException {
 
@@ -24,7 +18,7 @@ public class App {
 
         FarmInfo farmInfo = createFarmInfo(runOptions.getFarmPropertiesFileName());
 
-        Commands commands = new Commands(FarmClient.create(farmInfo), options);
+        Commands commands = new Commands(FarmClient.create(farmInfo), options, new AdbRunner(farmInfo.getSdkPath()));
 
         commands.run(runOptions);
     }
@@ -52,7 +46,8 @@ public class App {
         if (farmUrl == null || apiKey == null) {
             throw new IllegalArgumentException("Property file is invalid");
         }
-        return new FarmInfo(farmUrl, apiKey);
+        String sdk = properties.getProperty("android_sdk");
+        return new FarmInfo(farmUrl, apiKey, sdk);
     }
 
 
