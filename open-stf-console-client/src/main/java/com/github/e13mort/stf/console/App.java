@@ -47,7 +47,18 @@ public class App {
             throw new IllegalArgumentException("Property file is invalid");
         }
         String sdk = properties.getProperty("android_sdk");
-        return new FarmInfo(farmUrl, apiKey, sdk);
+        int timeout = getTimeout(properties);
+        return new FarmInfo(farmUrl, apiKey, sdk, timeout);
+    }
+
+    private static int getTimeout(Properties properties) {
+        try {
+            String timeoutProperty = properties.getProperty("stf.timeout");
+            return Integer.parseInt(timeoutProperty);
+        } catch (NumberFormatException e) {
+            System.err.println("Failed to get timeout from the properties. A default value is going to be used.");
+        }
+        return -1;
     }
 
 

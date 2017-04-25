@@ -15,19 +15,22 @@ import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 
 public class FarmClient {
-    private static final int CONNECTION_TIMEOUT = 60 * 1000;
+    private static final int DEFAULT_CONNECTION_TIMEOUT_SEC = 60;
     private final RxFarm rxFarm;
+    private final int connectionTimeoutSec;
 
     public static FarmClient create(FarmInfo farmInfo) {
         if (farmInfo == null) {
             throw new NullPointerException("Farm info is null");
         }
         ApiClient client = new ApiClient(farmInfo.getUrl(), farmInfo.getAuthKey());
-        return new FarmClient(new RxFarm(client.createService(DevicesApi.class), client.createService(UserApi.class)));
+        int timeout = farmInfo.getTimeoutSec() > 0 ? farmInfo.getTimeoutSec() : DEFAULT_CONNECTION_TIMEOUT_SEC;
+        return new FarmClient(new RxFarm(client.createService(DevicesApi.class), client.createService(UserApi.class)), timeout);
     }
 
-    FarmClient(RxFarm rxFarm) {
+    FarmClient(RxFarm rxFarm, int connectionTimeoutSec) {
         this.rxFarm = rxFarm;
+        this.connectionTimeoutSec = connectionTimeoutSec;
     }
 
     public Flowable<Device> getDevices(DevicesParams params) {
@@ -39,7 +42,7 @@ public class FarmClient {
                 .flatMap(new Function<Device, Publisher<String>>() {
                     @Override
                     public Publisher<String> apply(@NonNull Device device) throws Exception {
-                        return rxFarm.connect(device.getSerial(), CONNECTION_TIMEOUT).toFlowable();
+                        return rxFarm.connect(device.getSerial(), connectionTimeoutSec * 1000).toFlowable();
                     }
                 })
                 .flatMap(new Function<String, Publisher<Notification<String>>>() {

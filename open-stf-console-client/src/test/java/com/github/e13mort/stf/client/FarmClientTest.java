@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class FarmClientTest {
 
+    private static final int TIMEOUT_SEC = 60;
     private FarmClient client;
 
     @Before
@@ -23,7 +24,7 @@ public class FarmClientTest {
         RxFarm rxFarm = mock(RxFarm.class);
         ArrayList<Device> devices = createTestDevices();
         when(rxFarm.getAllDevices()).thenReturn(Flowable.fromIterable(devices));
-        client = new FarmClient(rxFarm);
+        client = new FarmClient(rxFarm, TIMEOUT_SEC);
     }
 
     @Test
