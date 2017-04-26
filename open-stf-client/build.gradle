@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-def ARTIFACT_ID = 'open-stf-console-client'
+def ARTIFACT_ID = 'open-stf-client'
 def ARTIFACT_VERSION = '0.1.0'
 
 buildscript {
