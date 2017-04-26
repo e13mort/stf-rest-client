@@ -6,7 +6,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 def ARTIFACT_ID = 'open-stf-rest-api-retrofit2-client'
-def ARTIFACT_VERSION = '1.0.0'
+def ARTIFACT_VERSION = '0.1.0'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
