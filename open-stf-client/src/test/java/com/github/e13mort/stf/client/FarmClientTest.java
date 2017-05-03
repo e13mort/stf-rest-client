@@ -51,7 +51,7 @@ public class FarmClientTest {
     public void testAbiAndApiLevelReturnsTwoActiveDevices() throws Exception {
         DevicesParams params = new DevicesParams();
         params.setAbi("abi2");
-        params.setOsVersion(21);
+        params.setApiVersion(21);
         client.getDevices(params).test().assertValueCount(1);
     }
 

@@ -4,7 +4,7 @@ public class DevicesParams {
     private boolean allDevices;
     private String deviceId;
     private String abi;
-    private int osVersion;
+    private int apiVersion;
     private int count;
     private String name;
 
@@ -20,8 +20,8 @@ public class DevicesParams {
         this.abi = abi;
     }
 
-    public void setOsVersion(int osVersion) {
-        this.osVersion = osVersion;
+    public void setApiVersion(int apiVersion) {
+        this.apiVersion = apiVersion;
     }
 
     public void setCount(int count) {
@@ -40,8 +40,8 @@ public class DevicesParams {
         return abi;
     }
 
-    public int getOsVersion() {
-        return osVersion;
+    public int getApiVersion() {
+        return apiVersion;
     }
 
     public int getCount() {
