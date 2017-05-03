@@ -52,7 +52,7 @@ public class FarmClientTest {
         DevicesParams params = new DevicesParams();
         params.setAbi("abi2");
         params.setOsVersion(21);
-        client.getDevices(params).test().assertValueCount(2);
+        client.getDevices(params).test().assertValueCount(1);
     }
 
     @Test

@@ -27,19 +27,38 @@ public class ApiLevelPredicateTest {
     }
 
     @Test
-    public void test21LevelEmmits4values() throws Exception {
-        data.filter(new ApiLevel(21)).test().assertValueCount(4);
+    public void test21MinLevelEmmits4values() throws Exception {
+        data.filter(new ApiLevel(21, ApiLevel.Kind.MIN)).test().assertValueCount(4);
     }
 
     @Test
-    public void test22LevelEmmits2Values() throws Exception {
-        data.filter(new ApiLevel(22)).test().assertValueCount(2);
+    public void test21EqLevelEmmits2values() throws Exception {
+        data.filter(new ApiLevel(21, ApiLevel.Kind.EQUALS)).test().assertValueCount(2);
     }
 
     @Test
-    public void test14LevelEmmitsAllValues() throws Exception {
-        data.filter(new ApiLevel(14)).test().assertValueCount(6);
+    public void test21MaxLevelEmmits4values() throws Exception {
+        data.filter(new ApiLevel(21, ApiLevel.Kind.MAX)).test().assertValueCount(4);
+    }
 
+    @Test
+    public void test22LevelMinEmmits2Values() throws Exception {
+        data.filter(new ApiLevel(22, ApiLevel.Kind.MIN)).test().assertValueCount(2);
+    }
+
+    @Test
+    public void test14LevelMinEmmitsAllValues() throws Exception {
+        data.filter(new ApiLevel(14, ApiLevel.Kind.MIN)).test().assertValueCount(6);
+    }
+
+    @Test
+    public void test9LevelMinEmmitsAllValues() throws Exception {
+        data.filter(new ApiLevel(9, ApiLevel.Kind.MIN)).test().assertValueCount(6);
+    }
+
+    @Test
+    public void test9LevelMaxEmmitsNoValues() throws Exception {
+        data.filter(new ApiLevel(9, ApiLevel.Kind.MAX)).test().assertNoValues();
     }
 
     private Device createDeviceMock(int sdk) {

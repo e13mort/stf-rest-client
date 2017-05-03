@@ -10,8 +10,8 @@ public class Filter {
         return new AbiPredicate(abi);
     }
 
-    public static Predicate<Device> api(int minApiLevel) {
-        return new ApiLevel(minApiLevel);
+    public static Predicate<Device> api(int apiLevel) {
+        return new ApiLevel(apiLevel, ApiLevel.Kind.EQUALS);
     }
 
     public static Predicate<Device> available(boolean filter) {
