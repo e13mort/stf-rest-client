@@ -56,14 +56,48 @@ public class FarmClientTest {
     }
 
     @Test
+    public void testMinApiLevel9ReturnsFourActiveDevices() throws Exception {
+        DevicesParams params = createTestParams();
+        params.setMinApiVersion(9);
+        client.getDevices(params).test().assertValueCount(4);
+    }
+
+    @Test
+    public void testMaxApiLevel9ReturnsNoActiveDevices() throws Exception {
+        DevicesParams params = createTestParams();
+        params.setMaxApiVersion(9);
+        client.getDevices(params).test().assertNoValues();
+    }
+
+    @Test
+    public void testMaxApiLevel21Returns3ActiveDevices() throws Exception {
+        DevicesParams params = createTestParams();
+        params.setMaxApiVersion(21);
+        client.getDevices(params).test().assertValueCount(3);
+    }
+
+    @Test
+    public void testMin21AndMax25ApiLevelReturns3ActiveDevices() throws Exception {
+        DevicesParams params = createTestParams();
+        params.setMinApiVersion(21);
+        params.setMaxApiVersion(25);
+        client.getDevices(params).test().assertValueCount(3);
+    }
+
+    @Test
     public void testTakeOnly2FirstDevices() throws Exception {
-        DevicesParams params = new DevicesParams();
-        params.setAllDevices(true);
+        DevicesParams params = createTestParams();
         params.setCount(2);
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(2);
         testSubscriber.assertValueAt(0, new TestNamePredicate("name1"));
         testSubscriber.assertValueAt(1, new TestNamePredicate("name2"));
+    }
+
+    private DevicesParams createTestParams() {
+        DevicesParams params = new DevicesParams();
+        params.setAllDevices(true);
+        return params;
     }
 
     private ArrayList<Device> createTestDevices() {

@@ -5,6 +5,8 @@ public class DevicesParams {
     private String deviceId;
     private String abi;
     private int apiVersion;
+    private int minApiVersion;
+    private int maxApiVersion;
     private int count;
     private String name;
 
@@ -54,5 +56,21 @@ public class DevicesParams {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setMinApiVersion(int minApiVersion) {
+        this.minApiVersion = minApiVersion;
+    }
+
+    public void setMaxApiVersion(int maxApiVersion) {
+        this.maxApiVersion = maxApiVersion;
+    }
+
+    public int getMinApiVersion() {
+        return minApiVersion;
+    }
+
+    public int getMaxApiVersion() {
+        return maxApiVersion;
     }
 }

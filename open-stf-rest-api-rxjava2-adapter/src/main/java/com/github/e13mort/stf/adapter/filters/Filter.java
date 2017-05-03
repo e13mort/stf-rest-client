@@ -14,6 +14,14 @@ public class Filter {
         return new ApiLevel(apiLevel, ApiLevel.Kind.EQUALS);
     }
 
+    public static Predicate<Device> minApi(int apiLevel) {
+        return new ApiLevel(apiLevel, ApiLevel.Kind.MIN);
+    }
+
+    public static Predicate<Device> maxApi(int apiLevel) {
+        return new ApiLevel(apiLevel, ApiLevel.Kind.MAX);
+    }
+
     public static Predicate<Device> available(boolean filter) {
         return new AvailabilityPredicate(filter);
     }

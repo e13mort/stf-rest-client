@@ -71,6 +71,12 @@ public class FarmClient {
             if (params.getApiVersion() > 0) {
                 upstream = apply(upstream, Filter.api(params.getApiVersion()));
             }
+            if (params.getMinApiVersion() > 0) {
+                upstream = apply(upstream, Filter.minApi(params.getMinApiVersion()));
+            }
+            if (params.getMaxApiVersion() > 0) {
+                upstream = apply(upstream, Filter.maxApi(params.getMaxApiVersion()));
+            }
             upstream = apply(upstream, Filter.available(!params.isAllDevices()));
             if (params.getName() != null) {
                 upstream = apply(upstream, Filter.name(params.getName()));
