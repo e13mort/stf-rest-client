@@ -14,6 +14,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 
+@SuppressWarnings("unused")
 public class FarmClient {
     private static final int DEFAULT_CONNECTION_TIMEOUT_SEC = 60;
     private final RxFarm rxFarm;
@@ -43,6 +44,22 @@ public class FarmClient {
                     @Override
                     public Publisher<String> apply(@NonNull Device device) throws Exception {
                         return rxFarm.connect(device.getSerial(), connectionTimeoutSec * 1000).toFlowable();
+                    }
+                })
+                .flatMap(new Function<String, Publisher<Notification<String>>>() {
+                    @Override
+                    public Publisher<Notification<String>> apply(@NonNull String s) throws Exception {
+                        return Flowable.just(Notification.createOnNext(s));
+                    }
+                });
+    }
+
+    public Flowable<Notification<String>> disconnectFromAllDevices() {
+        return rxFarm.getConnectedDevices()
+                .flatMap(new Function<Device, Publisher<String>>() {
+                    @Override
+                    public Publisher<String> apply(@NonNull Device device) throws Exception {
+                        return rxFarm.disconnect(device.getSerial()).toFlowable();
                     }
                 })
                 .flatMap(new Function<String, Publisher<Notification<String>>>() {
