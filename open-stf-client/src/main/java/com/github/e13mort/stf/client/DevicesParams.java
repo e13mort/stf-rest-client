@@ -1,5 +1,7 @@
 package com.github.e13mort.stf.client;
 
+import com.github.e13mort.stf.adapter.filters.ProviderDescription;
+
 public class DevicesParams {
     private boolean allDevices;
     private String deviceId;
@@ -9,6 +11,7 @@ public class DevicesParams {
     private int maxApiVersion;
     private int count;
     private String name;
+    private ProviderDescription providerDescription;
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
@@ -72,5 +75,13 @@ public class DevicesParams {
 
     public int getMaxApiVersion() {
         return maxApiVersion;
+    }
+
+    public ProviderDescription getProviderDescription() {
+        return providerDescription;
+    }
+
+    public void setProviderDescription(ProviderDescription providerDescription) {
+        this.providerDescription = providerDescription;
     }
 }

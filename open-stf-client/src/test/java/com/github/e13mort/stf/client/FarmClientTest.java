@@ -1,7 +1,10 @@
 package com.github.e13mort.stf.client;
 
 import com.github.e13mort.stf.adapter.RxFarm;
+import com.github.e13mort.stf.adapter.filters.ProviderDescription;
+import com.github.e13mort.stf.adapter.filters.ProviderPredicate;
 import com.github.e13mort.stf.model.device.Device;
+import com.github.e13mort.stf.model.device.Provider;
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Predicate;
@@ -10,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -94,6 +98,39 @@ public class FarmClientTest {
         testSubscriber.assertValueAt(1, new TestNamePredicate("name2"));
     }
 
+    @Test
+    public void testProviderIncludeStringProvider() throws Exception {
+        DevicesParams params = setupProvider(createTestParams(), ProviderPredicate.Type.INCLUDE, "provider");
+        TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
+        testSubscriber.assertValueCount(3);
+        testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider1"));
+        testSubscriber.assertValueAt(1, new ProviderNamePredicate("provider2"));
+        testSubscriber.assertValueAt(2, new ProviderNamePredicate("provider3"));
+    }
+
+    @Test
+    public void testProviderIncludeString1() throws Exception {
+        DevicesParams params = setupProvider(createTestParams(), ProviderPredicate.Type.INCLUDE, "1");
+        TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
+        testSubscriber.assertValueCount(1);
+        testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider1"));
+    }
+
+    @Test
+    public void testProviderExcludeString1() throws Exception {
+        DevicesParams params = setupProvider(createTestParams(), ProviderPredicate.Type.EXCLUDE, "1");
+        TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
+        testSubscriber.assertValueCount(3);
+        testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider2"));
+        testSubscriber.assertValueAt(1, new ProviderNamePredicate("provider3"));
+        testSubscriber.assertValueAt(2, new ProviderNamePredicate(null));
+    }
+
+    private DevicesParams setupProvider(DevicesParams params, ProviderPredicate.Type type, String... s) {
+        params.setProviderDescription(new ProviderDescription(type, Arrays.asList(s)));
+        return params;
+    }
+
     private DevicesParams createTestParams() {
         DevicesParams params = new DevicesParams();
         params.setAllDevices(true);
@@ -132,9 +169,19 @@ public class FarmClientTest {
         when(devices.get(2).getReady()).thenReturn(true);
         when(devices.get(3).getReady()).thenReturn(true);
 
+        when(devices.get(0).getProvider()).thenReturn(provider("provider1"));
+        when(devices.get(1).getProvider()).thenReturn(provider("provider2"));
+        when(devices.get(2).getProvider()).thenReturn(provider("provider3"));
+        when(devices.get(3).getProvider()).thenReturn(null);
+
         return devices;
     }
 
+    private Provider provider(String name) {
+        Provider provider = new Provider();
+        provider.setName(name);
+        return provider;
+    }
 
     private static class TestNamePredicate implements Predicate<Device> {
 
@@ -147,6 +194,23 @@ public class FarmClientTest {
         @Override
         public boolean test(@NonNull Device device) throws Exception {
             return device.getName().equals(name);
+        }
+    }
+
+    private static class ProviderNamePredicate implements Predicate<Device> {
+
+        private String name;
+
+        ProviderNamePredicate(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean test(@NonNull Device device) throws Exception {
+            if (name == null) {
+                return device.getProvider() == null || device.getProvider().getName() == null;
+            }
+            return device.getProvider().getName().equals(name);
         }
     }
 }

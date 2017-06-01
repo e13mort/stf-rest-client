@@ -31,6 +31,11 @@ public class Filter {
         return new NamePredicate(name);
     }
 
+    public static Predicate<Device> provider(ProviderDescription description) {
+        ProviderStringParser parser = new ProviderStringParser();
+        return new ProviderPredicate(description.getType(), description.getTemplates());
+    }
+
     private static void validate(String abi, String var) {
         if (abi == null) {
             throw new NullPointerException(var +" shouldn't be null");
