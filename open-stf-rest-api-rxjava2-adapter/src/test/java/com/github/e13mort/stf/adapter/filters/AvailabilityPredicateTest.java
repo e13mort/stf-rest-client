@@ -13,10 +13,10 @@ public class AvailabilityPredicateTest {
     @Test
     public void testDisabledFilterDoesNotAffectOfFlow() throws Exception {
         TestObserver<Device> testObserver = Observable.fromArray(
-                getMock(true, true),
-                getMock(true, false),
-                getMock(false, true),
-                getMock(false, false)
+                getMock(true, true, false),
+                getMock(true, false, false),
+                getMock(false, true, false),
+                getMock(false, false, false)
         )
                 .filter(new AvailabilityPredicate(false))
                 .test();
@@ -26,20 +26,22 @@ public class AvailabilityPredicateTest {
     @Test
     public void testEnabledFilterClearsFlow() throws Exception {
         TestObserver<Device> testObserver = Observable.fromArray(
-                getMock(true, true),
-                getMock(true, false),
-                getMock(false, true),
-                getMock(false, false)
+                getMock(true, true, false),
+                getMock(true, true, true),
+                getMock(true, false, false),
+                getMock(false, true, false),
+                getMock(false, false, false)
         )
                 .filter(new AvailabilityPredicate(true))
                 .test();
         testObserver.assertValueCount(1);
     }
 
-    private Device getMock(boolean ready, boolean present) {
+    private Device getMock(boolean ready, boolean present, boolean hasOwner) {
         Device device = mock(Device.class);
         when(device.getReady()).thenReturn(ready);
         when(device.getPresent()).thenReturn(present);
+        when(device.getOwner()).thenReturn(hasOwner ? new Object() : null);
         return device;
     }
 

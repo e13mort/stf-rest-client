@@ -32,7 +32,6 @@ public class Filter {
     }
 
     public static Predicate<Device> provider(ProviderDescription description) {
-        ProviderStringParser parser = new ProviderStringParser();
         return new ProviderPredicate(description.getType(), description.getTemplates());
     }
 

@@ -17,6 +17,6 @@ class AvailabilityPredicate implements Predicate<Device> {
     }
 
     private boolean isDeviceAvailable(@NonNull Device device) {
-        return device.getReady() && device.getPresent();
+        return device.getReady() && device.getPresent() && device.getOwner() == null;
     }
 }
