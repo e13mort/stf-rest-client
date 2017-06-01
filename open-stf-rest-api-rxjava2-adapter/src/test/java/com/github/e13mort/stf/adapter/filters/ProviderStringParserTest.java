@@ -29,7 +29,7 @@ public class ProviderStringParserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testParseSignStringWillThrowException() throws Exception {
-        parse("-");
+        parse("~");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class ProviderStringParserTest {
 
     @Test
     public void testOneItemsStringWillReturnExcludeType() throws Exception {
-        ProviderDescription result = parse("-item1");
+        ProviderDescription result = parse("~item1");
         assertEquals(EXCLUDE, result.getType());
     }
 
@@ -64,7 +64,7 @@ public class ProviderStringParserTest {
 
     @Test
     public void testTwoItemsStringWillReturnExcludeType() throws Exception {
-        ProviderDescription result = parse("-item1,item2");
+        ProviderDescription result = parse("~item1,item2");
         assertEquals(EXCLUDE, result.getType());
     }
 
@@ -76,7 +76,7 @@ public class ProviderStringParserTest {
 
     @Test
     public void testNegativeOneItemStringHasValidData() throws Exception {
-        ProviderDescription result = parse("-item1");
+        ProviderDescription result = parse("~item1");
         assertEquals("item1", result.getTemplates().get(0));
     }
 
@@ -89,7 +89,7 @@ public class ProviderStringParserTest {
 
     @Test
     public void testNegativeTwoItemsStringHasValidData() throws Exception {
-        ProviderDescription result = parse("-item1,item2");
+        ProviderDescription result = parse("~item1,item2");
         assertEquals("item1", result.getTemplates().get(0));
         assertEquals("item2", result.getTemplates().get(1));
     }

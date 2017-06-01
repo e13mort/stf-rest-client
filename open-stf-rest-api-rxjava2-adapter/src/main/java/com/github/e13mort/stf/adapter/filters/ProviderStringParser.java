@@ -8,7 +8,7 @@ import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.INCL
 
 public class ProviderStringParser {
 
-    public static final String DEFAULT_NEGATIVE_SIGN = "-";
+    public static final String DEFAULT_NEGATIVE_SIGN = "~";
     public static final String DEFAULT_DELIMITER_SIGN = ",";
     private final String delimiterSign;
     private final String negativeSign;
