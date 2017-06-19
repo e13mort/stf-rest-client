@@ -6,7 +6,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 def ARTIFACT_ID = 'open-stf-client'
-def ARTIFACT_VERSION = '0.2.0-SNAPSHOT'
+def ARTIFACT_VERSION = '0.2.0'
 
 buildscript {
     repositories {
