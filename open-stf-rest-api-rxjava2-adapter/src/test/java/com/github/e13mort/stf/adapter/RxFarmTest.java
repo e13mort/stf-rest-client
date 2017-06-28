@@ -6,9 +6,10 @@ import com.github.e13mort.stf.api.UserApi;
 import com.github.e13mort.stf.model.device.Device;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subscribers.TestSubscriber;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,16 +17,17 @@ import java.util.Properties;
 
 import static com.github.e13mort.stf.adapter.filters.Filter.abi;
 import static com.github.e13mort.stf.adapter.filters.Filter.api;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Tag("integration")
 public class RxFarmTest {
 
     static String baseUrl;
     static String apiKey;
     static String testDeviceSerial;
 
-    @BeforeClass
+    @BeforeAll
     public static void initProperties() throws IOException {
         //mock this
 
@@ -41,7 +43,7 @@ public class RxFarmTest {
 
     private RxFarm rxFarm;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         ApiClient apiClient = new ApiClient(baseUrl, apiKey);
         rxFarm = new RxFarm(apiClient.createService(DevicesApi.class), apiClient.createService(UserApi.class));

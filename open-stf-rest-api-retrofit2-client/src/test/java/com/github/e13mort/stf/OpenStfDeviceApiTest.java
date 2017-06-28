@@ -4,30 +4,30 @@ import com.github.e13mort.stf.api.DevicesApi;
 import com.github.e13mort.stf.model.DeviceListResponse;
 import com.github.e13mort.stf.model.DeviceResponse;
 import com.github.e13mort.stf.model.device.Device;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.IOException;
-
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertNotNull;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Created by pavel
  */
+@Tag("integration")
 public class OpenStfDeviceApiTest extends BaseOpenStfApiTest {
     private DevicesApi deviceApi;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() throws IOException {
         initProperties();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         final ApiClient apiClient = new ApiClient(baseUrl, apiKey);
         deviceApi = apiClient.createService(DevicesApi.class);

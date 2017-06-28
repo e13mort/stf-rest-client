@@ -2,8 +2,8 @@ package com.github.e13mort.stf.adapter.filters;
 
 import com.github.e13mort.stf.model.device.Device;
 import io.reactivex.Observable;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class ApiLevelPredicateTest {
 
     private Observable<Device> data;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         ArrayList<Device> objects = new ArrayList<>();
         objects.add(createDeviceMock(21));

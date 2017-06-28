@@ -9,8 +9,8 @@ import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Predicate;
 import io.reactivex.subscribers.TestSubscriber;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class FarmClientTest {
     private static final int TIMEOUT_SEC = 60;
     private FarmClient client;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         RxFarm rxFarm = mock(RxFarm.class);
         ArrayList<Device> devices = createTestDevices();

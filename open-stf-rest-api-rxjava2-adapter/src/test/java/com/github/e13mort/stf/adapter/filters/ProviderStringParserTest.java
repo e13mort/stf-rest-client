@@ -1,47 +1,47 @@
 package com.github.e13mort.stf.adapter.filters;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.EXCLUDE;
 import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.INCLUDE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProviderStringParserTest {
 
     private ProviderStringParser parser;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         parser = new ProviderStringParser();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test()
     public void testParseEmptyStringWillThrowException() throws Exception {
-        parse("");
+        assertThrows(IllegalArgumentException.class, test(""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test()
     public void testParseNullStringWillThrowException() throws Exception {
-        parse(null);
+        assertThrows(IllegalArgumentException.class, test(null));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test()
     public void testParseSignStringWillThrowException() throws Exception {
-        parse("~");
+        assertThrows(IllegalArgumentException.class, test("~"));
     }
 
     @Test
     public void testTwoItemsStringWillReturnNotNullResult() throws Exception {
         ProviderDescription result = parse("item1,item2");
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
     public void testNegativeTwoItemsStringWillReturnNotNullResult() throws Exception {
         ProviderDescription result = parse("!item1,item2");
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -96,5 +96,14 @@ public class ProviderStringParserTest {
 
     private ProviderDescription parse(String string) {
         return parser.parse(string);
+    }
+
+    private Executable test(final String string) {
+        return new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                parse(string);
+            }
+        };
     }
 }

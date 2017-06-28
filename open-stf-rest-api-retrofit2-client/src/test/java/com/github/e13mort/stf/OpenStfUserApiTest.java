@@ -5,32 +5,32 @@ import com.github.e13mort.stf.model.AccessTokensResponse;
 import com.github.e13mort.stf.model.AddUserDevicePayload;
 import com.github.e13mort.stf.model.DeviceListResponse;
 import com.github.e13mort.stf.model.UserResponse;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.IOException;
-
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by pavel
  */
+@Tag("integration")
 public class OpenStfUserApiTest extends BaseOpenStfApiTest {
     private static final int TEST_TIMEOUT = 60000;
     private UserApi userApi;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() throws IOException {
         initProperties();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         final ApiClient apiClient = new ApiClient(baseUrl, apiKey);
         userApi = apiClient.createService(UserApi.class);

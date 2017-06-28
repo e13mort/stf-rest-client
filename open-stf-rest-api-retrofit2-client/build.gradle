@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+apply from: '../junit.gradle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -15,7 +16,8 @@ dependencies {
     compile "com.squareup.retrofit2:converter-scalars:2.1.0"
     compile "com.squareup.retrofit2:converter-jackson:2.1.0"
 
-    testCompile "junit:junit:4.12"
+    testCompile rootProject.ext.junitApi
+    testRuntime rootProject.ext.junitRuntime
 }
 
 buildscript {
@@ -24,6 +26,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
     }
 }
 
