@@ -1,4 +1,0 @@
-todo Create a github repo
-todo Create a readme.md (description, tests configuration)
-todo Setup license header in source code
-todo Upload repo to github
