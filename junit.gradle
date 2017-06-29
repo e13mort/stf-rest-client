@@ -10,3 +10,8 @@ junitPlatform {
     }
     enableStandardTestTask true
 }
+
+dependencies {
+    testCompile rootProject.ext.junitApi
+    testRuntime rootProject.ext.junitRuntime
+}
