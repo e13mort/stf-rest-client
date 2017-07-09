@@ -2,6 +2,8 @@ package com.github.e13mort.stf.client;
 
 import com.github.e13mort.stf.adapter.filters.ProviderDescription;
 
+import java.util.List;
+
 public class DevicesParams {
     private boolean allDevices;
     private String deviceId;
@@ -10,7 +12,7 @@ public class DevicesParams {
     private int minApiVersion;
     private int maxApiVersion;
     private int count;
-    private String name;
+    private List<String> name;
     private ProviderDescription providerDescription;
 
     public void setAllDevices(boolean onlyAvailable) {
@@ -53,11 +55,11 @@ public class DevicesParams {
         return count;
     }
 
-    public String getName() {
+    public List<String> getNames() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setNames(List<String> name) {
         this.name = name;
     }
 

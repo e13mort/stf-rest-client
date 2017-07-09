@@ -126,6 +126,16 @@ public class FarmClientTest {
         testSubscriber.assertValueAt(2, new ProviderNamePredicate(null));
     }
 
+    @Test
+    void testTwoNames() {
+        DevicesParams testParams = createTestParams();
+        testParams.setNames(Arrays.asList("1", "2"));
+        TestSubscriber<Device> test = client.getDevices(testParams).test();
+        test.assertValueCount(2);
+        test.assertValueAt(0, new TestNamePredicate("name1"));
+        test.assertValueAt(1, new TestNamePredicate("name2"));
+    }
+
     private DevicesParams setupProvider(DevicesParams params, ProviderPredicate.Type type, String... s) {
         params.setProviderDescription(new ProviderDescription(type, Arrays.asList(s)));
         return params;

@@ -6,16 +6,12 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class NamePredicateTest extends SingleMockedStringFieldTest {
-
-    @Test
-    public void testNullNameWillEmitNPE() throws Exception {
-        testDataObservable.filter(new NamePredicate(null))
-                .test().assertError(NullPointerException.class);
-    }
 
     @Test
     public void testThereAreAllItemsEmitedWithoutThePredicate() throws Exception {
@@ -35,6 +31,14 @@ public class NamePredicateTest extends SingleMockedStringFieldTest {
     public void testInvalidNameWontEmitAnyValues() throws Exception {
         testDataObservable.filter(new NamePredicate("invalid"))
                 .test().assertNoValues();
+    }
+
+    @Test
+    void testTwoItemsFilterWillEmmitTwoObjects() {
+        TestObserver<Device> observer =
+                testDataObservable.filter(new NamePredicate(Arrays.asList("1", "another"))).test();
+        observer.assertValueAt(0, new TestDevicePredicate("name1"));
+        observer.assertValueAt(1, new TestDevicePredicate("another_name"));
     }
 
     @Override

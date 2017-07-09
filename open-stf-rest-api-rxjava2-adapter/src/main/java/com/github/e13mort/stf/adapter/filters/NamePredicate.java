@@ -4,19 +4,32 @@ import com.github.e13mort.stf.model.device.Device;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Predicate;
 
+import java.util.Collections;
+import java.util.List;
+
 class NamePredicate implements Predicate<Device> {
 
-    private final String name;
+    private final List<String> names;
 
     NamePredicate(String name) {
-        this.name = name;
+        this.names = Collections.singletonList(name);
+    }
+
+    NamePredicate(List<String> names) {
+        this.names = names;
     }
 
     @Override
     public boolean test(@NonNull Device device) throws Exception {
-        if (name == null) {
-            throw new NullPointerException("Name should not be a null");
+        String deviceName = device.getName();
+        if (deviceName == null) {
+            return false;
         }
-        return device.getName() != null && device.getName().toLowerCase().contains(name.toLowerCase());
+        for (String name : names) {
+            if (deviceName.toLowerCase().contains(name.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
