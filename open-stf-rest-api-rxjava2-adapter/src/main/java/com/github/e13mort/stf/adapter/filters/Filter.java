@@ -37,6 +37,10 @@ public class Filter {
         return new ProviderPredicate(description.getType(), description.getTemplates());
     }
 
+    public static Predicate<Device> serial(StringsFilterDescription description) {
+        return new SerialNumberPredicate(description.getTemplates(), description.getType());
+    }
+
     private static void validate(Object o, String var) {
         if (o == null) {
             throw new NullPointerException(var + " shouldn't be null");

@@ -5,7 +5,6 @@ import com.github.e13mort.stf.model.device.Provider;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Predicate;
-import io.reactivex.observers.TestObserver;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -97,11 +96,4 @@ public class ProviderPredicateTest extends SingleMockedStringFieldTest {
         return new ProviderPredicate(type, Arrays.asList(templates));
     }
 
-    private TestObserver<Device> test(ProviderPredicate predicate, int count) {
-        TestObserver<Device> testObserver = testDataObservable
-                .filter(predicate)
-                .test();
-        testObserver.assertValueCount(count);
-        return testObserver;
-    }
 }
