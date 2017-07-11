@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.EXCLUDE;
-import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.INCLUDE;
+import static com.github.e13mort.stf.adapter.filters.InclusionType.EXCLUDE;
+import static com.github.e13mort.stf.adapter.filters.InclusionType.INCLUDE;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProviderStringParserTest {

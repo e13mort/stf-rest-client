@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.EXCLUDE;
-import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.INCLUDE;
+import static com.github.e13mort.stf.adapter.filters.InclusionType.EXCLUDE;
+import static com.github.e13mort.stf.adapter.filters.InclusionType.INCLUDE;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -93,7 +93,7 @@ public class ProviderPredicateTest extends SingleMockedStringFieldTest {
         return mock;
     }
 
-    private ProviderPredicate create(ProviderPredicate.Type type, String... templates) {
+    private ProviderPredicate create(InclusionType type, String... templates) {
         return new ProviderPredicate(type, Arrays.asList(templates));
     }
 

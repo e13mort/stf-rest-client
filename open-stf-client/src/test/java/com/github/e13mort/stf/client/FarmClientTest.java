@@ -1,8 +1,8 @@
 package com.github.e13mort.stf.client;
 
 import com.github.e13mort.stf.adapter.RxFarm;
+import com.github.e13mort.stf.adapter.filters.InclusionType;
 import com.github.e13mort.stf.adapter.filters.ProviderDescription;
-import com.github.e13mort.stf.adapter.filters.ProviderPredicate;
 import com.github.e13mort.stf.model.device.Device;
 import com.github.e13mort.stf.model.device.Provider;
 import io.reactivex.Flowable;
@@ -100,7 +100,7 @@ public class FarmClientTest {
 
     @Test
     public void testProviderIncludeStringProvider() throws Exception {
-        DevicesParams params = setupProvider(createTestParams(), ProviderPredicate.Type.INCLUDE, "provider");
+        DevicesParams params = setupProvider(createTestParams(), InclusionType.INCLUDE, "provider");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(3);
         testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider1"));
@@ -110,7 +110,7 @@ public class FarmClientTest {
 
     @Test
     public void testProviderIncludeString1() throws Exception {
-        DevicesParams params = setupProvider(createTestParams(), ProviderPredicate.Type.INCLUDE, "1");
+        DevicesParams params = setupProvider(createTestParams(), InclusionType.INCLUDE, "1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(1);
         testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider1"));
@@ -118,7 +118,7 @@ public class FarmClientTest {
 
     @Test
     public void testProviderExcludeString1() throws Exception {
-        DevicesParams params = setupProvider(createTestParams(), ProviderPredicate.Type.EXCLUDE, "1");
+        DevicesParams params = setupProvider(createTestParams(), InclusionType.EXCLUDE, "1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(3);
         testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider2"));
@@ -136,7 +136,7 @@ public class FarmClientTest {
         test.assertValueAt(1, new TestNamePredicate("name2"));
     }
 
-    private DevicesParams setupProvider(DevicesParams params, ProviderPredicate.Type type, String... s) {
+    private DevicesParams setupProvider(DevicesParams params, InclusionType type, String... s) {
         params.setProviderDescription(new ProviderDescription(type, Arrays.asList(s)));
         return params;
     }

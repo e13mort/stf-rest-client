@@ -3,8 +3,8 @@ package com.github.e13mort.stf.adapter.filters;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.EXCLUDE;
-import static com.github.e13mort.stf.adapter.filters.ProviderPredicate.Type.INCLUDE;
+import static com.github.e13mort.stf.adapter.filters.InclusionType.EXCLUDE;
+import static com.github.e13mort.stf.adapter.filters.InclusionType.INCLUDE;
 
 public class ProviderStringParser {
 
@@ -25,13 +25,13 @@ public class ProviderStringParser {
     public ProviderDescription parse(String rawTemplate) {
         validate(rawTemplate);
 
-        ProviderPredicate.Type type = getType(rawTemplate);
+        InclusionType type = getType(rawTemplate);
         List<String> templates = getTemplates(rawTemplate);
 
         return new ProviderDescription(type, templates);
     }
 
-    private ProviderPredicate.Type getType(String rawTemplate) {
+    private InclusionType getType(String rawTemplate) {
         return hasNegativeSign(rawTemplate) ? EXCLUDE : INCLUDE;
     }
 
