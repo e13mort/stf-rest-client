@@ -127,6 +127,32 @@ public class FarmClientTest {
     }
 
     @Test
+    void testSerialIncludeSerial1() {
+        DevicesParams params = setupSerial(createTestParams(), InclusionType.INCLUDE, "serial1");
+        TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
+        testSubscriber.assertValueCount(2);
+        testSubscriber.assertValueAt(0, new TestNamePredicate("name1"));
+        testSubscriber.assertValueAt(1, new TestNamePredicate("name2"));
+    }
+
+    @Test
+    void testSerialExcludeSerial1() {
+        DevicesParams params = setupSerial(createTestParams(), InclusionType.EXCLUDE, "serial1");
+        TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
+        testSubscriber.assertValueCount(2);
+        testSubscriber.assertValueAt(0, new TestNamePredicate("name3"));
+        testSubscriber.assertValueAt(1, new TestNamePredicate("name4"));
+    }
+
+    @Test
+    void testSerialIncludeSerial2() {
+        DevicesParams params = setupSerial(createTestParams(), InclusionType.INCLUDE, "serial2");
+        TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
+        testSubscriber.assertValueCount(1);
+        testSubscriber.assertValueAt(0, new TestNamePredicate("name3"));
+    }
+
+    @Test
     void testTwoNames() {
         DevicesParams testParams = createTestParams();
         testParams.setNames(Arrays.asList("1", "2"));
@@ -138,6 +164,11 @@ public class FarmClientTest {
 
     private DevicesParams setupProvider(DevicesParams params, InclusionType type, String... s) {
         params.setProviderFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
+        return params;
+    }
+
+    private DevicesParams setupSerial(DevicesParams params, InclusionType type, String... s) {
+        params.setSerialFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
         return params;
     }
 
@@ -183,6 +214,11 @@ public class FarmClientTest {
         when(devices.get(1).getProvider()).thenReturn(provider("provider2"));
         when(devices.get(2).getProvider()).thenReturn(provider("provider3"));
         when(devices.get(3).getProvider()).thenReturn(null);
+
+        when(devices.get(0).getSerial()).thenReturn("serial1");
+        when(devices.get(1).getSerial()).thenReturn("serial1");
+        when(devices.get(2).getSerial()).thenReturn("serial2");
+        when(devices.get(3).getSerial()).thenReturn("serial3");
 
         return devices;
     }

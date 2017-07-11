@@ -101,6 +101,9 @@ public class FarmClient {
             if(params.getProviderFilterDescription() != null) {
                 upstream = apply(upstream, Filter.provider(params.getProviderFilterDescription()));
             }
+            if (params.getSerialFilterDescription() != null) {
+                upstream = apply(upstream, Filter.serial(params.getSerialFilterDescription()));
+            }
             if (params.getCount() > 0) {
                 upstream = upstream.take(params.getCount());
             }

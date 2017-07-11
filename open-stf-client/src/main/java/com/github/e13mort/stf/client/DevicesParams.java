@@ -14,6 +14,7 @@ public class DevicesParams {
     private int count;
     private List<String> name;
     private StringsFilterDescription providerFilterDescription;
+    private StringsFilterDescription serialFilterDescription;
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
@@ -85,5 +86,13 @@ public class DevicesParams {
 
     public void setProviderFilterDescription(StringsFilterDescription providerFilterDescription) {
         this.providerFilterDescription = providerFilterDescription;
+    }
+
+    public StringsFilterDescription getSerialFilterDescription() {
+        return serialFilterDescription;
+    }
+
+    public void setSerialFilterDescription(StringsFilterDescription serialFilterDescription) {
+        this.serialFilterDescription = serialFilterDescription;
     }
 }
