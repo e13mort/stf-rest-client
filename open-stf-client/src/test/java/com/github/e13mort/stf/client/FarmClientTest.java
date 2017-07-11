@@ -137,7 +137,7 @@ public class FarmClientTest {
     }
 
     private DevicesParams setupProvider(DevicesParams params, InclusionType type, String... s) {
-        params.setStringsFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
+        params.setProviderFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
         return params;
     }
 

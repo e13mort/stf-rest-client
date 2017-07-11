@@ -13,7 +13,7 @@ public class DevicesParams {
     private int maxApiVersion;
     private int count;
     private List<String> name;
-    private StringsFilterDescription stringsFilterDescription;
+    private StringsFilterDescription providerFilterDescription;
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
@@ -79,11 +79,11 @@ public class DevicesParams {
         return maxApiVersion;
     }
 
-    public StringsFilterDescription getStringsFilterDescription() {
-        return stringsFilterDescription;
+    public StringsFilterDescription getProviderFilterDescription() {
+        return providerFilterDescription;
     }
 
-    public void setStringsFilterDescription(StringsFilterDescription stringsFilterDescription) {
-        this.stringsFilterDescription = stringsFilterDescription;
+    public void setProviderFilterDescription(StringsFilterDescription providerFilterDescription) {
+        this.providerFilterDescription = providerFilterDescription;
     }
 }
