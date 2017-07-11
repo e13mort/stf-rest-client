@@ -1,6 +1,6 @@
 package com.github.e13mort.stf.client;
 
-import com.github.e13mort.stf.adapter.filters.ProviderDescription;
+import com.github.e13mort.stf.adapter.filters.StringsFilterDescription;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class DevicesParams {
     private int maxApiVersion;
     private int count;
     private List<String> name;
-    private ProviderDescription providerDescription;
+    private StringsFilterDescription stringsFilterDescription;
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
@@ -79,11 +79,11 @@ public class DevicesParams {
         return maxApiVersion;
     }
 
-    public ProviderDescription getProviderDescription() {
-        return providerDescription;
+    public StringsFilterDescription getStringsFilterDescription() {
+        return stringsFilterDescription;
     }
 
-    public void setProviderDescription(ProviderDescription providerDescription) {
-        this.providerDescription = providerDescription;
+    public void setStringsFilterDescription(StringsFilterDescription stringsFilterDescription) {
+        this.stringsFilterDescription = stringsFilterDescription;
     }
 }

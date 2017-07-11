@@ -8,13 +8,13 @@ import static com.github.e13mort.stf.adapter.filters.InclusionType.EXCLUDE;
 import static com.github.e13mort.stf.adapter.filters.InclusionType.INCLUDE;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProviderStringParserTest {
+public class StringsFilterParserTest {
 
-    private ProviderStringParser parser;
+    private StringsFilterParser parser;
 
     @BeforeEach
     public void setUp() throws Exception {
-        parser = new ProviderStringParser();
+        parser = new StringsFilterParser();
     }
 
     @Test()
@@ -34,67 +34,67 @@ public class ProviderStringParserTest {
 
     @Test
     public void testTwoItemsStringWillReturnNotNullResult() throws Exception {
-        ProviderDescription result = parse("item1,item2");
+        StringsFilterDescription result = parse("item1,item2");
         assertNotNull(result);
     }
 
     @Test
     public void testNegativeTwoItemsStringWillReturnNotNullResult() throws Exception {
-        ProviderDescription result = parse("!item1,item2");
+        StringsFilterDescription result = parse("!item1,item2");
         assertNotNull(result);
     }
 
     @Test
     public void testOneItemsStringWillReturnIncludeType() throws Exception {
-        ProviderDescription result = parse("item1");
+        StringsFilterDescription result = parse("item1");
         assertEquals(INCLUDE, result.getType());
     }
 
     @Test
     public void testOneItemsStringWillReturnExcludeType() throws Exception {
-        ProviderDescription result = parse("~item1");
+        StringsFilterDescription result = parse("~item1");
         assertEquals(EXCLUDE, result.getType());
     }
 
     @Test
     public void testTwoItemsStringWillReturnIncludeType() throws Exception {
-        ProviderDescription result = parse("item1,item2");
+        StringsFilterDescription result = parse("item1,item2");
         assertEquals(INCLUDE, result.getType());
     }
 
     @Test
     public void testTwoItemsStringWillReturnExcludeType() throws Exception {
-        ProviderDescription result = parse("~item1,item2");
+        StringsFilterDescription result = parse("~item1,item2");
         assertEquals(EXCLUDE, result.getType());
     }
 
     @Test
     public void testOneItemStringHasValidData() throws Exception {
-        ProviderDescription result = parse("item1");
+        StringsFilterDescription result = parse("item1");
         assertEquals("item1", result.getTemplates().get(0));
     }
 
     @Test
     public void testNegativeOneItemStringHasValidData() throws Exception {
-        ProviderDescription result = parse("~item1");
+        StringsFilterDescription result = parse("~item1");
         assertEquals("item1", result.getTemplates().get(0));
     }
 
     @Test
     public void testTwoItemsStringHasValidData() throws Exception {
-        ProviderDescription result = parse("item1,item2");
+        StringsFilterDescription result = parse("item1,item2");
         assertEquals("item1", result.getTemplates().get(0));
         assertEquals("item2", result.getTemplates().get(1));
     }
 
     @Test
     public void testNegativeTwoItemsStringHasValidData() throws Exception {
-        ProviderDescription result = parse("~item1,item2");
+        StringsFilterDescription result = parse("~item1,item2");
         assertEquals("item1", result.getTemplates().get(0));
         assertEquals("item2", result.getTemplates().get(1));
     }
 
-    private ProviderDescription parse(String string) {
+    private StringsFilterDescription parse(String string) {
         return parser.parse(string);
     }
 

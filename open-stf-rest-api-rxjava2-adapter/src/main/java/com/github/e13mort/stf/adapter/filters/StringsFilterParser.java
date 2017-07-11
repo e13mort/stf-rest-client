@@ -6,29 +6,29 @@ import java.util.List;
 import static com.github.e13mort.stf.adapter.filters.InclusionType.EXCLUDE;
 import static com.github.e13mort.stf.adapter.filters.InclusionType.INCLUDE;
 
-public class ProviderStringParser {
+public class StringsFilterParser {
 
     public static final String DEFAULT_NEGATIVE_SIGN = "~";
     public static final String DEFAULT_DELIMITER_SIGN = ",";
     private final String delimiterSign;
     private final String negativeSign;
 
-    public ProviderStringParser() {
+    public StringsFilterParser() {
         this(DEFAULT_NEGATIVE_SIGN, DEFAULT_DELIMITER_SIGN);
     }
 
-    public ProviderStringParser(String negativeSign, String delimiterSign) {
+    public StringsFilterParser(String negativeSign, String delimiterSign) {
         this.delimiterSign = delimiterSign;
         this.negativeSign = negativeSign;
     }
 
-    public ProviderDescription parse(String rawTemplate) {
+    public StringsFilterDescription parse(String rawTemplate) {
         validate(rawTemplate);
 
         InclusionType type = getType(rawTemplate);
         List<String> templates = getTemplates(rawTemplate);
 
-        return new ProviderDescription(type, templates);
+        return new StringsFilterDescription(type, templates);
     }
 
     private InclusionType getType(String rawTemplate) {

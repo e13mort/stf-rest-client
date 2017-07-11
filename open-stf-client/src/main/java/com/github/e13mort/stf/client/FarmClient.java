@@ -98,8 +98,8 @@ public class FarmClient {
             if (params.getNames() != null) {
                 upstream = apply(upstream, Filter.name(params.getNames()));
             }
-            if(params.getProviderDescription() != null) {
-                upstream = apply(upstream, Filter.provider(params.getProviderDescription()));
+            if(params.getStringsFilterDescription() != null) {
+                upstream = apply(upstream, Filter.provider(params.getStringsFilterDescription()));
             }
             if (params.getCount() > 0) {
                 upstream = upstream.take(params.getCount());

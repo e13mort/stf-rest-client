@@ -2,7 +2,7 @@ package com.github.e13mort.stf.client;
 
 import com.github.e13mort.stf.adapter.RxFarm;
 import com.github.e13mort.stf.adapter.filters.InclusionType;
-import com.github.e13mort.stf.adapter.filters.ProviderDescription;
+import com.github.e13mort.stf.adapter.filters.StringsFilterDescription;
 import com.github.e13mort.stf.model.device.Device;
 import com.github.e13mort.stf.model.device.Provider;
 import io.reactivex.Flowable;
@@ -137,7 +137,7 @@ public class FarmClientTest {
     }
 
     private DevicesParams setupProvider(DevicesParams params, InclusionType type, String... s) {
-        params.setProviderDescription(new ProviderDescription(type, Arrays.asList(s)));
+        params.setStringsFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
         return params;
     }
 

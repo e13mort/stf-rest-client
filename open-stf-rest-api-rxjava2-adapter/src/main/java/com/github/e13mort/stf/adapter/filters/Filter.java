@@ -33,7 +33,7 @@ public class Filter {
         return new NamePredicate(names);
     }
 
-    public static Predicate<Device> provider(ProviderDescription description) {
+    public static Predicate<Device> provider(StringsFilterDescription description) {
         return new ProviderPredicate(description.getType(), description.getTemplates());
     }
 
