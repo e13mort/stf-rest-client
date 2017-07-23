@@ -4,7 +4,6 @@ import com.github.e13mort.stf.adapter.filters.StringsFilterDescription;
 
 public class DevicesParams {
     private boolean allDevices;
-    private String deviceId;
     private String abi;
     private int apiVersion;
     private int minApiVersion;
@@ -16,10 +15,6 @@ public class DevicesParams {
 
     public void setAllDevices(boolean onlyAvailable) {
         this.allDevices = onlyAvailable;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 
     public void setAbi(String abi) {
@@ -36,10 +31,6 @@ public class DevicesParams {
 
     public boolean isAllDevices() {
         return allDevices;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
     }
 
     public String getAbi() {
