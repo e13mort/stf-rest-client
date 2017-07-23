@@ -155,7 +155,7 @@ public class FarmClientTest {
     @Test
     void testTwoNames() {
         DevicesParams testParams = createTestParams();
-        testParams.setNames(Arrays.asList("1", "2"));
+        testParams.setNameFilterDescription(new StringsFilterDescription(InclusionType.INCLUDE, Arrays.asList("1", "2")));
         TestSubscriber<Device> test = client.getDevices(testParams).test();
         test.assertValueCount(2);
         test.assertValueAt(0, new TestNamePredicate("name1"));

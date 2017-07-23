@@ -2,8 +2,6 @@ package com.github.e13mort.stf.client;
 
 import com.github.e13mort.stf.adapter.filters.StringsFilterDescription;
 
-import java.util.List;
-
 public class DevicesParams {
     private boolean allDevices;
     private String deviceId;
@@ -12,7 +10,7 @@ public class DevicesParams {
     private int minApiVersion;
     private int maxApiVersion;
     private int count;
-    private List<String> name;
+    private StringsFilterDescription nameFilterDescription;
     private StringsFilterDescription providerFilterDescription;
     private StringsFilterDescription serialFilterDescription;
 
@@ -56,12 +54,12 @@ public class DevicesParams {
         return count;
     }
 
-    public List<String> getNames() {
-        return name;
+    public StringsFilterDescription getNameFilterDescription() {
+        return nameFilterDescription;
     }
 
-    public void setNames(List<String> name) {
-        this.name = name;
+    public void setNameFilterDescription(StringsFilterDescription nameFilterDescription) {
+        this.nameFilterDescription = nameFilterDescription;
     }
 
     public void setMinApiVersion(int minApiVersion) {

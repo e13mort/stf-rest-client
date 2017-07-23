@@ -20,7 +20,7 @@ public class NamePredicateTest extends SingleMockedStringFieldTest {
 
     @Test
     public void testEmptyNameWillFilterNullName() throws Exception {
-        TestObserver<Device> observer = testDataObservable.filter(new NamePredicate("")).test();
+        TestObserver<Device> observer = testDataObservable.filter(create(InclusionType.INCLUDE, "")).test();
         observer.assertValueCount(3);
         observer.assertValueAt(0, new TestDevicePredicate("name1"));
         observer.assertValueAt(1, new TestDevicePredicate("another_name"));
@@ -29,14 +29,14 @@ public class NamePredicateTest extends SingleMockedStringFieldTest {
 
     @Test
     public void testInvalidNameWontEmitAnyValues() throws Exception {
-        testDataObservable.filter(new NamePredicate("invalid"))
+        testDataObservable.filter(create(InclusionType.INCLUDE,"invalid"))
                 .test().assertNoValues();
     }
 
     @Test
     void testTwoItemsFilterWillEmmitTwoObjects() {
         TestObserver<Device> observer =
-                testDataObservable.filter(new NamePredicate(Arrays.asList("1", "another"))).test();
+                testDataObservable.filter(create(InclusionType.INCLUDE,"1", "another")).test();
         observer.assertValueAt(0, new TestDevicePredicate("name1"));
         observer.assertValueAt(1, new TestDevicePredicate("another_name"));
     }
@@ -65,5 +65,9 @@ public class NamePredicateTest extends SingleMockedStringFieldTest {
         public boolean test(@NonNull Device device) throws Exception {
             return device.getName().equals(name);
         }
+
+    }
+    private NamePredicate create(InclusionType type, String... names) {
+        return new NamePredicate(Arrays.asList(names), type);
     }
 }
