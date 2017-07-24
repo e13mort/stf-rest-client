@@ -3,8 +3,6 @@ package com.github.e13mort.stf.adapter.filters;
 import com.github.e13mort.stf.model.device.Device;
 import io.reactivex.functions.Predicate;
 
-import java.util.List;
-
 public class Filter {
 
     public static Predicate<Device> abi(String abi) {
@@ -28,9 +26,8 @@ public class Filter {
         return new AvailabilityPredicate(filter);
     }
 
-    public static Predicate<Device> name(List<String> names) {
-        validate(names, "names");
-        return new NamePredicate(names);
+    public static Predicate<Device> name(StringsFilterDescription description) {
+        return new NamePredicate(description.getTemplates(), description.getType());
     }
 
     public static Predicate<Device> provider(StringsFilterDescription description) {
