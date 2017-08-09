@@ -38,7 +38,7 @@ public class FarmClient {
         return rxFarm.getAllDevices().compose(new DeviceParamsTransformer(params));
     }
 
-    public Flowable<Notification<String>> connectToDevices(DevicesParamsImpl params) {
+    public Flowable<Notification<String>> connectToDevices(DevicesParams params) {
         return getDevices(params)
                 .flatMap(new Function<Device, Publisher<String>>() {
                     @Override
