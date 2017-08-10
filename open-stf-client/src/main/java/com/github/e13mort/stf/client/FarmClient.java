@@ -35,6 +35,10 @@ public class FarmClient {
         return rxFarm.getAllDevices().compose(new DeviceParamsTransformer(params));
     }
 
+    public Flowable<Device> getMyDevices() {
+        return rxFarm.getConnectedDevices();
+    }
+
     public Flowable<Notification<String>> connectToDevices(DevicesParams params) {
         return getDevices(params)
                 .flatMap(new Function<Device, Publisher<String>>() {
