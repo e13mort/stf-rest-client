@@ -27,30 +27,9 @@ buildscript {
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            groupId GROUP_ID
-            artifactId ARTIFACT_ID
-            version ARTIFACT_VERSION
-        }
-    }
+project.ext {
+    artifactId = ARTIFACT_ID
+    artifactVersion = ARTIFACT_VERSION
 }
-
-bintray {
-    user = rootProject.ext.bintrayUser
-    key = rootProject.ext.bintrayKey
-    publications = ['mavenJava']
-    pkg {
-        repo = 'maven'
-        name = ARTIFACT_ID
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/e13mort/stf-rest-client.git'
-        version {
-            name = ARTIFACT_VERSION
-        }
-    }
-}
+apply from: '../publish.gradle'
 

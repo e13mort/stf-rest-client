@@ -18,13 +18,13 @@ import java.util.Arrays;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class FarmClientTest {
+class FarmClientTest {
 
     private static final int TIMEOUT_SEC = 60;
     private FarmClient client;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         RxFarm rxFarm = mock(RxFarm.class);
         ArrayList<Device> devices = createTestDevices();
         when(rxFarm.getAllDevices()).thenReturn(Flowable.fromIterable(devices));
@@ -32,65 +32,65 @@ public class FarmClientTest {
     }
 
     @Test
-    public void testEmptyDeviceParamsReturnsActiveItems() throws Exception {
-        DevicesParams params = new DevicesParams();
+    void testEmptyDeviceParamsReturnsActiveItems() throws Exception {
+        DevicesParamsImpl params = new DevicesParamsImpl();
         client.getDevices(params).test().assertValueCount(3);
     }
 
     @Test
-    public void testDisabledAvailabilityFlagReturnsAllItems() throws Exception {
-        DevicesParams params = new DevicesParams();
+    void testDisabledAvailabilityFlagReturnsAllItems() throws Exception {
+        DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAllDevices(true);
         client.getDevices(params).test().assertValueCount(4);
     }
 
     @Test
-    public void testOneActiveAbiItem() throws Exception {
-        DevicesParams params = new DevicesParams();
+    void testOneActiveAbiItem() throws Exception {
+        DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAbi("abi1");
         client.getDevices(params).test().assertValueCount(1);
     }
 
     @Test
-    public void testAbiAndApiLevelReturnsTwoActiveDevices() throws Exception {
-        DevicesParams params = new DevicesParams();
+    void testAbiAndApiLevelReturnsTwoActiveDevices() throws Exception {
+        DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAbi("abi2");
         params.setApiVersion(21);
         client.getDevices(params).test().assertValueCount(1);
     }
 
     @Test
-    public void testMinApiLevel9ReturnsFourActiveDevices() throws Exception {
-        DevicesParams params = createTestParams();
+    void testMinApiLevel9ReturnsFourActiveDevices() throws Exception {
+        DevicesParamsImpl params = createTestParams();
         params.setMinApiVersion(9);
         client.getDevices(params).test().assertValueCount(4);
     }
 
     @Test
-    public void testMaxApiLevel9ReturnsNoActiveDevices() throws Exception {
-        DevicesParams params = createTestParams();
+    void testMaxApiLevel9ReturnsNoActiveDevices() throws Exception {
+        DevicesParamsImpl params = createTestParams();
         params.setMaxApiVersion(9);
         client.getDevices(params).test().assertNoValues();
     }
 
     @Test
-    public void testMaxApiLevel21Returns3ActiveDevices() throws Exception {
-        DevicesParams params = createTestParams();
+    void testMaxApiLevel21Returns3ActiveDevices() throws Exception {
+        DevicesParamsImpl params = createTestParams();
         params.setMaxApiVersion(21);
         client.getDevices(params).test().assertValueCount(3);
     }
 
     @Test
-    public void testMin21AndMax25ApiLevelReturns3ActiveDevices() throws Exception {
-        DevicesParams params = createTestParams();
+    void testMin21AndMax25ApiLevelReturns3ActiveDevices() throws Exception {
+        DevicesParamsImpl params = createTestParams();
         params.setMinApiVersion(21);
         params.setMaxApiVersion(25);
         client.getDevices(params).test().assertValueCount(3);
     }
 
     @Test
-    public void testTakeOnly2FirstDevices() throws Exception {
-        DevicesParams params = createTestParams();
+    void testTakeOnly2FirstDevices() throws Exception {
+        DevicesParamsImpl params = createTestParams();
         params.setCount(2);
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(2);
@@ -99,8 +99,8 @@ public class FarmClientTest {
     }
 
     @Test
-    public void testProviderIncludeStringProvider() throws Exception {
-        DevicesParams params = setupProvider(createTestParams(), InclusionType.INCLUDE, "provider");
+    void testProviderIncludeStringProvider() throws Exception {
+        DevicesParamsImpl params = setupProvider(createTestParams(), InclusionType.INCLUDE, "provider");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(3);
         testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider1"));
@@ -109,16 +109,16 @@ public class FarmClientTest {
     }
 
     @Test
-    public void testProviderIncludeString1() throws Exception {
-        DevicesParams params = setupProvider(createTestParams(), InclusionType.INCLUDE, "1");
+    void testProviderIncludeString1() throws Exception {
+        DevicesParamsImpl params = setupProvider(createTestParams(), InclusionType.INCLUDE, "1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(1);
         testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider1"));
     }
 
     @Test
-    public void testProviderExcludeString1() throws Exception {
-        DevicesParams params = setupProvider(createTestParams(), InclusionType.EXCLUDE, "1");
+    void testProviderExcludeString1() throws Exception {
+        DevicesParamsImpl params = setupProvider(createTestParams(), InclusionType.EXCLUDE, "1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(3);
         testSubscriber.assertValueAt(0, new ProviderNamePredicate("provider2"));
@@ -128,7 +128,7 @@ public class FarmClientTest {
 
     @Test
     void testSerialIncludeSerial1() {
-        DevicesParams params = setupSerial(createTestParams(), InclusionType.INCLUDE, "serial1");
+        DevicesParamsImpl params = setupSerial(createTestParams(), InclusionType.INCLUDE, "serial1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(2);
         testSubscriber.assertValueAt(0, new TestNamePredicate("name1"));
@@ -137,7 +137,7 @@ public class FarmClientTest {
 
     @Test
     void testSerialExcludeSerial1() {
-        DevicesParams params = setupSerial(createTestParams(), InclusionType.EXCLUDE, "serial1");
+        DevicesParamsImpl params = setupSerial(createTestParams(), InclusionType.EXCLUDE, "serial1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(2);
         testSubscriber.assertValueAt(0, new TestNamePredicate("name3"));
@@ -146,7 +146,7 @@ public class FarmClientTest {
 
     @Test
     void testSerialIncludeSerial2() {
-        DevicesParams params = setupSerial(createTestParams(), InclusionType.INCLUDE, "serial2");
+        DevicesParamsImpl params = setupSerial(createTestParams(), InclusionType.INCLUDE, "serial2");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(1);
         testSubscriber.assertValueAt(0, new TestNamePredicate("name3"));
@@ -154,7 +154,7 @@ public class FarmClientTest {
 
     @Test
     void testTwoNames() {
-        DevicesParams testParams = createTestParams();
+        DevicesParamsImpl testParams = createTestParams();
         testParams.setNameFilterDescription(new StringsFilterDescription(InclusionType.INCLUDE, Arrays.asList("1", "2")));
         TestSubscriber<Device> test = client.getDevices(testParams).test();
         test.assertValueCount(2);
@@ -162,18 +162,18 @@ public class FarmClientTest {
         test.assertValueAt(1, new TestNamePredicate("name2"));
     }
 
-    private DevicesParams setupProvider(DevicesParams params, InclusionType type, String... s) {
+    private DevicesParamsImpl setupProvider(DevicesParamsImpl params, InclusionType type, String... s) {
         params.setProviderFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
         return params;
     }
 
-    private DevicesParams setupSerial(DevicesParams params, InclusionType type, String... s) {
+    private DevicesParamsImpl setupSerial(DevicesParamsImpl params, InclusionType type, String... s) {
         params.setSerialFilterDescription(new StringsFilterDescription(type, Arrays.asList(s)));
         return params;
     }
 
-    private DevicesParams createTestParams() {
-        DevicesParams params = new DevicesParams();
+    private DevicesParamsImpl createTestParams() {
+        DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAllDevices(true);
         return params;
     }
