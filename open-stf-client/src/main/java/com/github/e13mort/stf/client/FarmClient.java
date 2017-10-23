@@ -4,6 +4,8 @@ import com.github.e13mort.stf.ApiClient;
 import com.github.e13mort.stf.adapter.RxFarm;
 import com.github.e13mort.stf.api.DevicesApi;
 import com.github.e13mort.stf.api.UserApi;
+import com.github.e13mort.stf.client.parameters.DeviceParamsTransformer;
+import com.github.e13mort.stf.client.parameters.DevicesParams;
 import com.github.e13mort.stf.model.device.Device;
 import io.reactivex.Flowable;
 import io.reactivex.Notification;
