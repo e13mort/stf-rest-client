@@ -13,11 +13,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileParamsDeviceConnectorTest {
 
@@ -58,6 +60,20 @@ class FileParamsDeviceConnectorTest {
         assertNotNull(params.getProviderFilterDescription());
     }
 
+    @DisplayName("url of a valid params file url should be parsed")
+    @Test
+    void readParamsFromUrl_validFile_success() throws MalformedURLException, JsonParamsReaderException {
+        final URL url = getFile("valid_full_params.json").toURL();
+        readParams(url);
+    }
+
+    @DisplayName("url of invalid params file should throws an exception")
+    @Test
+    void readParamsFromUrl_invalidUrl_exception() throws MalformedURLException {
+        final URL url = getFile("invalid").toURL();
+        assertThrows(JsonParamsReaderException.class, () -> readParams(url));
+    }
+
     @SuppressWarnings("unused")
     private static Stream<Arguments> invalidFiles() {
         return Stream.of(
@@ -66,6 +82,11 @@ class FileParamsDeviceConnectorTest {
                 Arguments.of("invalid_field_value_custom.json", JsonParamsReaderException.class),
                 Arguments.of("not_a_file", JsonParamsReaderException.class)
         );
+    }
+
+    private DevicesParams readParams(URL url) throws JsonParamsReaderException {
+        final JsonDeviceParametersReader reader = new JsonDeviceParametersReader();
+        return reader.read(url);
     }
 
     private DevicesParams readParams(String testFileName) throws JsonParamsReaderException {
