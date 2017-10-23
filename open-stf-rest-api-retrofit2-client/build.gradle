@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
-apply from: '../junit.gradle'
+apply from: '../gradle-import/junit.gradle'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -23,7 +23,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
+        classpath rootProject.ext.junitPlaformGradle
     }
 }
 
@@ -31,5 +31,5 @@ project.ext {
     artifactId = ARTIFACT_ID
     artifactVersion = ARTIFACT_VERSION
 }
-apply from: '../publish.gradle'
+apply from: '../gradle-import/publish.gradle'
 

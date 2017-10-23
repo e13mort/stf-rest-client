@@ -29,4 +29,4 @@ project.ext {
     artifactId = ARTIFACT_ID
     artifactVersion = ARTIFACT_VERSION
 }
-apply from: '../publish.gradle'
+apply from: '../gradle-import/publish.gradle'

@@ -13,5 +13,6 @@ junitPlatform {
 
 dependencies {
     testCompile rootProject.ext.junitApi
+    testCompile rootProject.ext.junitParams
     testRuntime rootProject.ext.junitRuntime
 }

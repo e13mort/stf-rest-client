@@ -3,6 +3,7 @@ package com.github.e13mort.stf.client;
 import com.github.e13mort.stf.adapter.RxFarm;
 import com.github.e13mort.stf.adapter.filters.InclusionType;
 import com.github.e13mort.stf.adapter.filters.StringsFilterDescription;
+import com.github.e13mort.stf.client.parameters.DevicesParamsImpl;
 import com.github.e13mort.stf.model.device.Device;
 import com.github.e13mort.stf.model.device.Provider;
 import io.reactivex.Flowable;

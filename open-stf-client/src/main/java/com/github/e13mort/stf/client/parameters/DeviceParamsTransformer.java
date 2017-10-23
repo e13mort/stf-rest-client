@@ -1,4 +1,4 @@
-package com.github.e13mort.stf.client;
+package com.github.e13mort.stf.client.parameters;
 
 import com.github.e13mort.stf.adapter.filters.Filter;
 import com.github.e13mort.stf.model.device.Device;
@@ -7,10 +7,10 @@ import io.reactivex.FlowableTransformer;
 import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 
-class DeviceParamsTransformer implements FlowableTransformer<Device, Device> {
+public class DeviceParamsTransformer implements FlowableTransformer<Device, Device> {
     private final DevicesParams params;
 
-    DeviceParamsTransformer(DevicesParams params) {
+    public DeviceParamsTransformer(DevicesParams params) {
         this.params = params;
     }
 

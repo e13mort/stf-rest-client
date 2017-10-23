@@ -1,4 +1,4 @@
-package com.github.e13mort.stf.client;
+package com.github.e13mort.stf.client.parameters;
 
 import com.github.e13mort.stf.adapter.filters.StringsFilterDescription;
 
