@@ -7,17 +7,21 @@ import com.github.e13mort.stf.model.DeviceListResponse;
 import com.github.e13mort.stf.model.DeviceResponse;
 import com.github.e13mort.stf.model.RemoteConnectUserDeviceResponse;
 import com.github.e13mort.stf.model.device.Device;
-import io.reactivex.*;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.BiConsumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.internal.operators.maybe.MaybeError;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.List;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.BiConsumer;
+import io.reactivex.functions.Function;
+import io.reactivex.internal.operators.maybe.MaybeError;
+import retrofit2.Response;
+
+@SuppressWarnings("WeakerAccess")
 public class RxFarm {
     private static final String DEVICES_FIELDS = "";
     private final DevicesApi devicesApi;
@@ -29,40 +33,31 @@ public class RxFarm {
     }
 
     public Single<Device> getDevice(final String serial) {
-        return Single.create(new SingleOnSubscribe<Device>() {
-            @Override
-            public void subscribe(SingleEmitter<Device> emitter) throws Exception {
-                Response<DeviceResponse> response = devicesApi.getDeviceBySerial(serial, DEVICES_FIELDS).execute();
-                if (!response.isSuccessful()) {
-                    emitter.onError(new ResponseException(response));
-                } else {
-                    emitter.onSuccess(response.body().getDevice());
-                }
+        return Single.create(emitter -> {
+            Response<DeviceResponse> response = devicesApi.getDeviceBySerial(serial, DEVICES_FIELDS).execute();
+            if (!response.isSuccessful()) {
+                emitter.onError(new ResponseException(response));
+            } else {
+                emitter.onSuccess(response.body().getDevice());
             }
         });
     }
 
     public Flowable<Device> getAllDevices() {
-        return Flowable.create(new FlowableOnSubscribe<Device>() {
-            @Override
-            public void subscribe(final FlowableEmitter<Device> emitter) throws Exception {
-                Response<DeviceListResponse> response = devicesApi
-                        .getDevices(DEVICES_FIELDS)
-                        .execute();
-                wrapDevices(emitter, response);
-            }
+        return Flowable.create(emitter -> {
+            Response<DeviceListResponse> response = devicesApi
+                    .getDevices(DEVICES_FIELDS)
+                    .execute();
+            wrapDevices(emitter, response);
         }, BackpressureStrategy.BUFFER);
     }
 
     public Flowable<Device> getConnectedDevices() {
-        return Flowable.create(new FlowableOnSubscribe<Device>() {
-            @Override
-            public void subscribe(FlowableEmitter<Device> e) throws Exception {
-                Response<DeviceListResponse> response = userApi
-                        .getUserDevices(DEVICES_FIELDS)
-                        .execute();
-                wrapDevices(e, response);
-            }
+        return Flowable.create(e -> {
+            Response<DeviceListResponse> response = userApi
+                    .getUserDevices(DEVICES_FIELDS)
+                    .execute();
+            wrapDevices(e, response);
         }, BackpressureStrategy.BUFFER);
     }
 
@@ -93,38 +88,28 @@ public class RxFarm {
     }
 
     private BiConsumer<String, Throwable> deleteDevice() {
-        return new BiConsumer<String, Throwable>() {
-            @Override
-            public void accept(@NonNull String s, @NonNull Throwable throwable) throws Exception {
-                Response<Object> response = userApi.deleteUserDeviceBySerial(s).execute();
-                if (!response.isSuccessful()) {
-                    throw new ResponseException(response.code(), response.message());
-                }
+        return (s, throwable) -> {
+            Response<Object> response = userApi.deleteUserDeviceBySerial(s).execute();
+            if (!response.isSuccessful()) {
+                throw new ResponseException(response.code(), response.message());
             }
         };
     }
 
     private BiConsumer<String, Throwable> disconnectFromDevice() {
-        return new BiConsumer<String, Throwable>() {
-            @Override
-            public void accept(@NonNull String s, @NonNull Throwable throwable) throws Exception {
-                Response<Object> response = userApi.remoteDisconnectUserDeviceBySerial(s).execute();
-                if (!response.isSuccessful()) {
-                    throw new ResponseException(response.code(), response.message());
-                }
+        return (s, throwable) -> {
+            Response<Object> response = userApi.remoteDisconnectUserDeviceBySerial(s).execute();
+            if (!response.isSuccessful()) {
+                throw new ResponseException(response.code(), response.message());
             }
         };
     }
 
     private Single<String> from(String serial) {
+        //noinspection Convert2MethodRef
         return Single.just(serial)
-                .filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(@NonNull String s) throws Exception {
-                        return s != null;
-                    }
-                })
-                .switchIfEmpty(new MaybeError<String>(new NullPointerException("Serial is null")))
+                .filter(s -> s != null)
+                .switchIfEmpty(new MaybeError<>(new NullPointerException("Serial is null")))
                 .toSingle();
     }
 
@@ -133,16 +118,13 @@ public class RxFarm {
     }
 
     private BiConsumer<String, Throwable> addUserToDevice(final String serial, final int timeout) {
-        return new BiConsumer<String, Throwable>() {
-            @Override
-            public void accept(@NonNull String s, @NonNull Throwable throwable) throws Exception {
-                AddUserDevicePayload payload = new AddUserDevicePayload();
-                payload.setSerial(serial);
-                payload.setTimeout(timeout);
-                Response<Object> response = userApi.addUserDevice(payload).execute();
-                if (!response.isSuccessful()) {
-                    throw new ResponseException(response);
-                }
+        return (s, throwable) -> {
+            AddUserDevicePayload payload = new AddUserDevicePayload();
+            payload.setSerial(serial);
+            payload.setTimeout(timeout);
+            Response<Object> response = userApi.addUserDevice(payload).execute();
+            if (!response.isSuccessful()) {
+                throw new ResponseException(response);
             }
         };
     }
