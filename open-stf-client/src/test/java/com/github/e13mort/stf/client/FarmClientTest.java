@@ -7,6 +7,8 @@ import com.github.e13mort.stf.client.parameters.DevicesParamsImpl;
 import com.github.e13mort.stf.model.device.Device;
 import com.github.e13mort.stf.model.device.Provider;
 import io.reactivex.Flowable;
+import io.reactivex.Notification;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Predicate;
 import io.reactivex.subscribers.TestSubscriber;
@@ -16,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,37 +27,38 @@ class FarmClientTest {
 
     private static final int TIMEOUT_SEC = 60;
     private FarmClient client;
+    private RxFarm rxFarm;
 
     @BeforeEach
-    void setUp() throws Exception {
-        RxFarm rxFarm = mock(RxFarm.class);
+    void setUp() {
+        rxFarm = mock(RxFarm.class);
         ArrayList<Device> devices = createTestDevices();
         when(rxFarm.getAllDevices()).thenReturn(Flowable.fromIterable(devices));
         client = new FarmClient(rxFarm, TIMEOUT_SEC);
     }
 
     @Test
-    void testEmptyDeviceParamsReturnsActiveItems() throws Exception {
+    void testEmptyDeviceParamsReturnsActiveItems() {
         DevicesParamsImpl params = new DevicesParamsImpl();
         client.getDevices(params).test().assertValueCount(3);
     }
 
     @Test
-    void testDisabledAvailabilityFlagReturnsAllItems() throws Exception {
+    void testDisabledAvailabilityFlagReturnsAllItems() {
         DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAllDevices(true);
         client.getDevices(params).test().assertValueCount(4);
     }
 
     @Test
-    void testOneActiveAbiItem() throws Exception {
+    void testOneActiveAbiItem() {
         DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAbi("abi1");
         client.getDevices(params).test().assertValueCount(1);
     }
 
     @Test
-    void testAbiAndApiLevelReturnsTwoActiveDevices() throws Exception {
+    void testAbiAndApiLevelReturnsTwoActiveDevices() {
         DevicesParamsImpl params = new DevicesParamsImpl();
         params.setAbi("abi2");
         params.setApiVersion(21);
@@ -61,28 +66,28 @@ class FarmClientTest {
     }
 
     @Test
-    void testMinApiLevel9ReturnsFourActiveDevices() throws Exception {
+    void testMinApiLevel9ReturnsFourActiveDevices() {
         DevicesParamsImpl params = createTestParams();
         params.setMinApiVersion(9);
         client.getDevices(params).test().assertValueCount(4);
     }
 
     @Test
-    void testMaxApiLevel9ReturnsNoActiveDevices() throws Exception {
+    void testMaxApiLevel9ReturnsNoActiveDevices() {
         DevicesParamsImpl params = createTestParams();
         params.setMaxApiVersion(9);
         client.getDevices(params).test().assertNoValues();
     }
 
     @Test
-    void testMaxApiLevel21Returns3ActiveDevices() throws Exception {
+    void testMaxApiLevel21Returns3ActiveDevices() {
         DevicesParamsImpl params = createTestParams();
         params.setMaxApiVersion(21);
         client.getDevices(params).test().assertValueCount(3);
     }
 
     @Test
-    void testMin21AndMax25ApiLevelReturns3ActiveDevices() throws Exception {
+    void testMin21AndMax25ApiLevelReturns3ActiveDevices() {
         DevicesParamsImpl params = createTestParams();
         params.setMinApiVersion(21);
         params.setMaxApiVersion(25);
@@ -90,7 +95,7 @@ class FarmClientTest {
     }
 
     @Test
-    void testTakeOnly2FirstDevices() throws Exception {
+    void testTakeOnly2FirstDevices() {
         DevicesParamsImpl params = createTestParams();
         params.setCount(2);
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
@@ -100,7 +105,7 @@ class FarmClientTest {
     }
 
     @Test
-    void testProviderIncludeStringProvider() throws Exception {
+    void testProviderIncludeStringProvider() {
         DevicesParamsImpl params = setupProvider(createTestParams(), InclusionType.INCLUDE, "provider");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(3);
@@ -110,7 +115,7 @@ class FarmClientTest {
     }
 
     @Test
-    void testProviderIncludeString1() throws Exception {
+    void testProviderIncludeString1() {
         DevicesParamsImpl params = setupProvider(createTestParams(), InclusionType.INCLUDE, "1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(1);
@@ -118,7 +123,7 @@ class FarmClientTest {
     }
 
     @Test
-    void testProviderExcludeString1() throws Exception {
+    void testProviderExcludeString1() {
         DevicesParamsImpl params = setupProvider(createTestParams(), InclusionType.EXCLUDE, "1");
         TestSubscriber<Device> testSubscriber = client.getDevices(params).test();
         testSubscriber.assertValueCount(3);
@@ -161,6 +166,48 @@ class FarmClientTest {
         test.assertValueCount(2);
         test.assertValueAt(0, new TestNamePredicate("name1"));
         test.assertValueAt(1, new TestNamePredicate("name2"));
+    }
+
+    @Test
+    void testDisconnect() {
+        when(rxFarm.disconnect("ser1")).thenReturn(Single.just("ser1"));
+        when(rxFarm.disconnect("ser2_fail")).thenReturn(Single.error(new Exception("fail")));
+        when(rxFarm.disconnect("ser3")).thenReturn(Single.just("ser3"));
+        TestSubscriber<Notification<String>> subscriber = client.disconnectFromDevices(Arrays.asList("ser1", "ser2_fail", "ser3")).test();
+        subscriber.assertValueAt(0, Notification::isOnNext);
+        subscriber.assertValueAt(1, Notification::isOnError);
+        subscriber.assertValueAt(2, Notification::isOnNext);
+        subscriber.assertComplete();
+    }
+
+    @Test
+    void testConnect() {
+        when(rxFarm.connect(eq("serial1"), anyInt())).thenReturn(Single.error(new Exception("error")));
+        when(rxFarm.connect(eq("serial2"), anyInt())).thenReturn(Single.just("an_ip"));
+        when(rxFarm.connect(eq("serial3"), anyInt())).thenReturn(Single.just("an_ip"));
+        TestSubscriber<Notification<String>> test = client.connectToDevices(createTestParams()).test();
+        test.assertValueCount(4);
+        test.assertValueAt(0, Notification::isOnError);
+        test.assertValueAt(1, Notification::isOnError);
+        test.assertValueAt(2, Notification::isOnNext);
+        test.assertValueAt(3, Notification::isOnNext);
+        test.assertNoErrors();
+    }
+
+    @Test
+    void testDisconnectFromAll() {
+        ArrayList<Device> testDevices = createTestDevices();
+        when(rxFarm.getConnectedDevices()).thenReturn(Flowable.fromIterable(testDevices));
+        when(rxFarm.disconnect(eq("serial1"))).thenReturn(Single.error(new Exception()));
+        when(rxFarm.disconnect(eq("serial2"))).thenReturn(Single.just("an_ip"));
+        when(rxFarm.disconnect(eq("serial3"))).thenReturn(Single.just("an_ip"));
+        TestSubscriber<Notification<String>> test = client.disconnectFromAllDevices().test();
+        test.assertValueCount(4);
+        test.assertValueAt(0, Notification::isOnError);
+        test.assertValueAt(1, Notification::isOnError);
+        test.assertValueAt(2, Notification::isOnNext);
+        test.assertValueAt(3, Notification::isOnNext);
+        test.assertNoErrors();
     }
 
     private DevicesParamsImpl setupProvider(DevicesParamsImpl params, InclusionType type, String... s) {
@@ -239,7 +286,7 @@ class FarmClientTest {
         }
 
         @Override
-        public boolean test(@NonNull Device device) throws Exception {
+        public boolean test(@NonNull Device device) {
             return device.getName().equals(name);
         }
     }
@@ -253,7 +300,7 @@ class FarmClientTest {
         }
 
         @Override
-        public boolean test(@NonNull Device device) throws Exception {
+        public boolean test(@NonNull Device device) {
             if (name == null) {
                 return device.getProvider() == null || device.getProvider().getName() == null;
             }
