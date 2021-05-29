@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply from: '../gradle-import/junit.gradle'
 
@@ -12,10 +12,10 @@ repositories {
 }
 
 dependencies {
-    compile project(':open-stf-rest-api-model')
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile "com.squareup.retrofit2:converter-scalars:2.1.0"
-    compile "com.squareup.retrofit2:converter-jackson:2.1.0"
+    implementation project(':open-stf-rest-api-model')
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
+    api "com.squareup.retrofit2:converter-scalars:2.1.0"
+    api "com.squareup.retrofit2:converter-jackson:2.1.0"
 }
 
 buildscript {
