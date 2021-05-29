@@ -6,7 +6,6 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 def ARTIFACT_ID = 'open-stf-client'
-def ARTIFACT_VERSION = '0.3.4'
 
 buildscript {
     repositories {
@@ -31,6 +30,5 @@ dependencies {
 
 project.ext {
     artifactId = ARTIFACT_ID
-    artifactVersion = ARTIFACT_VERSION
 }
 apply from: '../gradle-import/publish.gradle'
