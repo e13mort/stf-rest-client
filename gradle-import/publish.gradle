@@ -11,7 +11,7 @@ publishing {
             artifact sourcesJar
             groupId GROUP_ID
             artifactId project.ext.artifactId
-            version project.ext.artifactVersion
+            version 'local'
         }
     }
 }
