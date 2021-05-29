@@ -18,9 +18,9 @@ repositories {
 }
 
 dependencies {
-    implementation project(':open-stf-rest-api-model')
-    implementation project(':open-stf-rest-api-retrofit2-client')
-    implementation project(':open-stf-rest-api-rxjava2-adapter')
+    api project(':open-stf-rest-api-model')
+    api project(':open-stf-rest-api-retrofit2-client')
+    api project(':open-stf-rest-api-rxjava2-adapter')
     implementation 'io.reactivex.rxjava2:rxjava:2.0.7'
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
 
