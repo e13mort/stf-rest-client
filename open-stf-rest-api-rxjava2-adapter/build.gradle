@@ -12,9 +12,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath rootProject.ext.junitPlaformGradle
-    }
 }
 
 repositories {
