@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -10,10 +9,9 @@ def ARTIFACT_VERSION = '0.1.0'
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 

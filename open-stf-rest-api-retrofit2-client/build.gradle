@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 apply from: '../gradle-import/junit.gradle'
 
 sourceCompatibility = 1.7
@@ -8,6 +7,10 @@ targetCompatibility = 1.7
 
 def ARTIFACT_ID = 'open-stf-rest-api-retrofit2-client'
 def ARTIFACT_VERSION = '0.1.0'
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -19,10 +22,9 @@ dependencies {
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath rootProject.ext.junitPlaformGradle
     }
 }

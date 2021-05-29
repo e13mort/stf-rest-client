@@ -2,7 +2,6 @@
 
 buildscript {
     repositories {
-        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
@@ -16,15 +15,12 @@ buildscript {
         junitRuntime = 'org.junit.jupiter:junit-jupiter-engine:5.0.1'
         junitPlaformGradle = 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
         junitParams = 'org.junit.jupiter:junit-jupiter-params:5.0.1'
-        bintrayUser = project.getProperties().get('bintray_user', 'unknown_user')
-        bintrayKey = project.getProperties().get('bintray_key', 'unknown_key')
         groupId = GROUP_ID
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
     }
 }
 
