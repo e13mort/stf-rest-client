@@ -61,10 +61,29 @@ public class RxFarm {
         }, BackpressureStrategy.BUFFER);
     }
 
+    /**
+     * Connect to device by its serial number. @{@link Deprecated} use connectToDevice() method instead
+     * @param serial target device serial number
+     * @param timeout connection timeout
+     * @return remote connection url
+     */
+    @Deprecated
     public Single<String> connect(final String serial, final int timeout) {
         return from(serial)
                 .doOnEvent(addUserToDevice(serial, timeout))
-                .map(connectToDevice());
+                .map(new DeviceConnectFunction());
+    }
+
+    /**
+     * Connect to device by its serial number.
+     * @param serial target device serial number
+     * @param timeout connection timeout
+     * @return RemoteConnectUserDeviceResponse with remote connection url and its serial number
+     */
+    public Single<ConnectedFarmDevice> connectToDevice(final String serial, final int timeout) {
+        return from(serial)
+                .doOnEvent(addUserToDevice(serial, timeout))
+                .map(new ConnectedFarmDeviceConnectFunction());
     }
 
     public Single<String> disconnect(final String serial) {
@@ -113,10 +132,6 @@ public class RxFarm {
                 .toSingle();
     }
 
-    private DeviceConnectFunction connectToDevice() {
-        return new DeviceConnectFunction();
-    }
-
     private BiConsumer<String, Throwable> addUserToDevice(final String serial, final int timeout) {
         return (s, throwable) -> {
             AddUserDevicePayload payload = new AddUserDevicePayload();
@@ -129,13 +144,31 @@ public class RxFarm {
         };
     }
 
-    public class DeviceConnectFunction implements Function<String, String> {
+    private class DeviceConnectFunction implements Function<String, String> {
         @Override
         public String apply(@NonNull String serial) throws Exception {
             Response<RemoteConnectUserDeviceResponse> response = userApi.remoteConnectUserDeviceBySerial(serial).execute();
             if (response.isSuccessful()) {
-                if (response.body() != null && response.body().getRemoteConnectUrl() != null) {
-                    return response.body().getRemoteConnectUrl();
+                final RemoteConnectUserDeviceResponse body = response.body();
+                if (body != null && body.getRemoteConnectUrl() != null) {
+                    return body.getRemoteConnectUrl();
+                } else {
+                    throw new IllegalArgumentException("Connect was successful but response is invalid");
+                }
+            } else {
+                throw new ResponseException(response);
+            }
+        }
+    }
+
+    private class ConnectedFarmDeviceConnectFunction implements Function<String, ConnectedFarmDevice> {
+        @Override
+        public ConnectedFarmDevice apply(@NonNull String serial) throws Exception {
+            Response<RemoteConnectUserDeviceResponse> response = userApi.remoteConnectUserDeviceBySerial(serial).execute();
+            if (response.isSuccessful()) {
+                final RemoteConnectUserDeviceResponse body = response.body();
+                if (body != null && body.getRemoteConnectUrl() != null) {
+                    return new ConnectedFarmDevice(serial, body.getRemoteConnectUrl());
                 } else {
                     throw new IllegalArgumentException("Connect was successful but response is invalid");
                 }

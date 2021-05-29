@@ -1,6 +1,7 @@
 package com.github.e13mort.stf.client;
 
 import com.github.e13mort.stf.ApiClient;
+import com.github.e13mort.stf.adapter.ConnectedFarmDevice;
 import com.github.e13mort.stf.adapter.RxFarm;
 import com.github.e13mort.stf.api.DevicesApi;
 import com.github.e13mort.stf.api.UserApi;
@@ -19,11 +20,6 @@ public class FarmClient {
     private static final int DEFAULT_CONNECTION_TIMEOUT_SEC = 60;
     private final RxFarm rxFarm;
     private final int connectionTimeoutSec;
-    private final Function<Single<String>, Flowable<Notification<String>>> notificationConversionFunction =
-            stringSingle -> stringSingle
-                    .toFlowable()
-                    .map(Notification::createOnNext)
-                    .onErrorReturn(Notification::createOnError);
 
     public static FarmClient create(FarmInfo farmInfo) {
         if (farmInfo == null) {
@@ -47,19 +43,32 @@ public class FarmClient {
         return rxFarm.getConnectedDevices();
     }
 
+    @Deprecated
     public Flowable<Notification<String>> connectToDevices(DevicesParams params) {
         return getDevices(params)
-                .flatMap(device -> rxFarm.connect(device.getSerial(), connectionTimeoutSec * 1000).to(notificationConversionFunction));
+                .flatMap(device -> rxFarm.connect(device.getSerial(), connectionTimeoutSec * 1000).to(singleToNotificationConverter()));
+    }
+
+    public Flowable<Notification<ConnectedFarmDevice>> connectToDevicesByParams(DevicesParams params) {
+        return getDevices(params)
+                .flatMap(device -> rxFarm.connectToDevice(device.getSerial(), connectionTimeoutSec * 1000).to(singleToNotificationConverter()));
     }
 
     public Flowable<Notification<String>> disconnectFromAllDevices() {
         return rxFarm.getConnectedDevices()
-                .flatMap(device -> rxFarm.disconnect(device.getSerial()).to(notificationConversionFunction));
+                .flatMap(device -> rxFarm.disconnect(device.getSerial()).to(singleToNotificationConverter()));
     }
 
     public Flowable<Notification<String>> disconnectFromDevices(List<String> serialNumbers) {
         return Flowable.fromIterable(serialNumbers)
-                .flatMap(serial -> rxFarm.disconnect(serial).to(notificationConversionFunction));
+                .flatMap(serial -> rxFarm.disconnect(serial).to(singleToNotificationConverter()));
+    }
+
+    private <T>Function<Single<T>, Flowable<Notification<T>>> singleToNotificationConverter() {
+        return stringSingle -> stringSingle
+                .toFlowable()
+                .map(Notification::createOnNext)
+                .onErrorReturn(Notification::createOnError);
     }
 
 }
